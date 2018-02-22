@@ -1,0 +1,8 @@
+{
+  "name": "Rentals",
+  "app_id": "ed0c482e",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}
