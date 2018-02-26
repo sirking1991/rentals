@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
 import { GeneralProvider } from '../../providers/general/general';
 
-import jsSHA from 'jssha';
+import CryptoJS from 'crypto-js';
 
 @IonicPage()
 @Component({
@@ -41,11 +41,10 @@ export class LoginPage {
 
   login(){
     this.login_btn_label = 'Please wait...';
-    let enc_password = new jsSHA("SHA-256", "TEXT");
-    enc_password.update(this.password+this.token);
+    let enc_password = CryptoJS.SHA256(this.password+this.token).toString(CryptoJS.enc.Hex);
     let body = {account_code: this.account_code, 
                 user_code:    this.user_code, 
-                enc_password: enc_password.getHash("HEX"),
+                enc_password: enc_password,
                 token:        this.token}
     this.gs.http.post(this.gs.api_url+'Auth/user_login',body)
       .subscribe(
