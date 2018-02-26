@@ -1,0 +1,30 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Power meters <ion-badge item-end>{{power_meters.length}}</ion-badge></ion-title>
+
+    <ion-buttons end>
+        <button ion-button color="primary" (click)="open(-1)">
+          <ion-icon name="add"></ion-icon>&nbsp;New
+        </button>
+      </ion-buttons>    
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content >
+  <ion-searchbar (ionInput)="search($event)"></ion-searchbar>
+
+  <ion-card *ngFor="let power_meter of power_meters; let i = index" (click)="open(i)">
+    <ion-card-header>
+      Number: {{power_meter.nmbr}} / Multiplier {{power_meter.multiplier}}
+    </ion-card-header>
+    <ion-card-content>
+      {{power_meter.remarks}}
+    </ion-card-content>
+  </ion-card>
+
+
+
+</ion-content>

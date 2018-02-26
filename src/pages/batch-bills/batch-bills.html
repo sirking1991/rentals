@@ -1,0 +1,31 @@
+<ion-header>
+
+    <ion-navbar>
+      <ion-title>Batch bills <ion-badge item-end>{{batch_bills.length}}</ion-badge></ion-title>
+  
+      <ion-buttons end>
+          <button ion-button color="primary" (click)="open(-1)">
+            <ion-icon name="add"></ion-icon>&nbsp;New
+          </button>
+        </ion-buttons>    
+    </ion-navbar>
+  
+  </ion-header>
+  
+  
+  <ion-content >
+    <ion-searchbar (ionInput)="search($event)"></ion-searchbar>
+  
+    <ion-card *ngFor="let batch_bill of batch_bills; let i = index" (click)="open(i)">
+      <ion-card-header>
+        {{batch_bill.date+' / '+batch_bill.type}} 
+      </ion-card-header>
+      <ion-card-content>
+        {{batch_bill.remarks}}
+      </ion-card-content>
+    </ion-card>
+  
+  
+  
+  </ion-content>
+  

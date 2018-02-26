@@ -1,0 +1,30 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Power meter readings <ion-badge item-end>{{power_meter_readings.length}}</ion-badge></ion-title>
+
+    <ion-buttons end>
+        <button ion-button color="primary" (click)="open(-1)">
+          <ion-icon name="add"></ion-icon>&nbsp;New
+        </button>
+      </ion-buttons>    
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content >
+  <ion-searchbar (ionInput)="search($event)"></ion-searchbar>
+
+  <ion-card *ngFor="let power_meter_reading of power_meter_readings; let i = index" (click)="open(i)">
+    <ion-card-header>
+      Number: {{power_meter_reading.nmbr}} / Date {{power_meter_reading.date}}
+    </ion-card-header>
+    <ion-card-content>
+      {{power_meter_reading.remarks}}
+    </ion-card-content>
+  </ion-card>
+
+
+
+</ion-content>

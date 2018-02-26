@@ -1,0 +1,65 @@
+<ion-header>
+
+    <ion-navbar>
+      <ion-title></ion-title>
+
+      <ion-buttons end>
+        <button ion-button full (click)="generateBills()" *ngIf="batch_bill.details.length==0 && new_record" >
+            <ion-icon name="cog"></ion-icon>&nbsp;Generate bills
+        </button>
+
+        <button ion-button color="primary" (click)="save()" *ngIf="batch_bill.details.length>0 && new_record">
+            <ion-icon name="checkmark"></ion-icon>&nbsp;Save
+        </button>
+      </ion-buttons> 
+
+    </ion-navbar>
+  
+  </ion-header>
+  
+  
+  <ion-content padding>
+  
+      <ion-item>
+        <ion-label floating>Batch date</ion-label>
+        <ion-datetime displayFormat="YYYY-MM-DD" [(ngModel)]='batch_bill.date'></ion-datetime>
+      </ion-item>    
+
+      <ion-item>
+        <ion-label floating>Type</ion-label>
+        <ion-select [(ngModel)]='batch_bill.type'>
+          <ion-option value='POWER'>POWER</ion-option>
+          <ion-option value='RENT'>RENT</ion-option>
+        </ion-select>
+      </ion-item>
+      
+      <ion-item *ngIf="'POWER'==batch_bill.type">
+        <ion-label floating>Reading batch</ion-label>
+        <ion-select [(ngModel)]='batch_bill.reading_batch_uid'>
+          <ion-option *ngFor="let b of power_meter_readings" value='{{b.uid}}'>{{b.nmbr}} - {{b.date}}</ion-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item *ngIf="'POWER'==batch_bill.type">
+          <ion-label floating>Rate per KWH</ion-label>
+          <ion-input type='number'[(ngModel)]='batch_bill.rate'></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Remarks</ion-label>
+        <ion-input type="text" [(ngModel)]='batch_bill.remarks'></ion-input>
+      </ion-item>        
+
+        
+      <ion-card *ngFor="let bill of batch_bill.details; let i = index">
+          <ion-card-header>
+            Number: {{bill.nmbr}}
+            <span float-right>{{bill.amount|number:'1.2-2'}}</span>
+          </ion-card-header>
+          <ion-card-content>
+            {{bill.remarks}}
+          </ion-card-content>
+        </ion-card>      
+  
+  </ion-content>
+  

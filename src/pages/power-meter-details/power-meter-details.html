@@ -1,0 +1,36 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title></ion-title>
+
+    <ion-buttons end>
+        <button ion-button color="primary" (click)="save()">
+            <ion-icon name="checkmark"></ion-icon>&nbsp;Save
+        </button>
+        <button ion-button full color='danger' (click)="delete()" *ngIf="!new_record" >
+            <ion-icon name="trash"></ion-icon>&nbsp;Delete
+        </button>
+      </ion-buttons>        
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+    <ion-item>
+      <ion-label floating>Number</ion-label>
+      <ion-input type="text" [(ngModel)]='power_meter.nmbr'></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Multiplier</ion-label>
+      <ion-input type="number" [(ngModel)]='power_meter.multiplier'></ion-input>
+    </ion-item>      
+
+    <ion-item>
+      <ion-label floating>Remarks</ion-label>
+      <ion-input type="text" [(ngModel)]='power_meter.remarks'></ion-input>
+    </ion-item>
+
+</ion-content>

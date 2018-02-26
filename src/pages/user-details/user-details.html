@@ -1,0 +1,43 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title></ion-title>
+
+    <ion-buttons end>
+        <button ion-button color="primary" (click)="save()">
+            <ion-icon name="checkmark"></ion-icon>&nbsp;Save
+        </button>
+        <button ion-button full color='danger' (click)="delete()" *ngIf="!new_record" >
+            <ion-icon name="trash"></ion-icon>&nbsp;Delete
+        </button>
+      </ion-buttons>        
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+    <ion-item>
+      <ion-label floating>First name</ion-label>
+      <ion-input type="text" [(ngModel)]='user.first_name'></ion-input>
+    </ion-item>
+    
+    <ion-item>
+      <ion-label floating>Last name</ion-label>
+      <ion-input type="text" [(ngModel)]='user.last_name'></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Login code</ion-label>
+      <ion-input type="text" [(ngModel)]='user.code'></ion-input>
+    </ion-item>      
+
+    <ion-item>
+      <ion-label floating>Password</ion-label>
+      <ion-input type="text" [(ngModel)]='user.password'></ion-input>
+    </ion-item>      
+
+
+
+</ion-content>

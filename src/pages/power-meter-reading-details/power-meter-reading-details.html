@@ -1,0 +1,57 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title></ion-title>
+
+    <ion-buttons end>
+      <button ion-button color="primary" (click)="save()">
+          <ion-icon name="checkmark"></ion-icon>&nbsp;Save
+      </button>
+      <button ion-button full color='danger' (click)="delete()" *ngIf="!new_record" >
+          <ion-icon name="trash"></ion-icon>&nbsp;Delete
+      </button>
+    </ion-buttons>        
+</ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-item>
+    <ion-label floating>Batch</ion-label>
+    <ion-input type="text" [(ngModel)]='power_meter_reading.nmbr'></ion-input>
+  </ion-item>
+
+    <ion-item>
+      <ion-label floating>Reading date</ion-label>
+      <ion-datetime displayFormat="YYYY-MM-DD" [(ngModel)]='power_meter_reading.date'></ion-datetime>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Remarks</ion-label>
+      <ion-input type="text" [(ngModel)]='power_meter_reading.remarks'></ion-input>
+    </ion-item>      
+  
+    <div *ngIf="0==power_meter_reading.details.length">
+        <button ion-button full color="primary" (click)="loadMeters()">
+            <ion-icon name="color-wand"></ion-icon>&nbsp;Load meters
+        </button>
+    </div>
+
+    <div *ngIf="0<power_meter_reading.details.length">
+      <!-- <ion-searchbar placeholder='Search meter or unit #'  (ionInput)="search($event)"></ion-searchbar> -->
+      <ion-card *ngFor="let read of power_meter_reading.details; let i = index" (click)="updateReading(i)">
+        <ion-card-header>
+          Meter #: {{read.meter_nmbr}}
+        </ion-card-header>
+        <ion-card-content>
+          ({{read.current}} - {{read.previous}}) x {{read.multiplier}} = {{(read.current-read.previous)*read.multiplier}} KWH
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+
+
+
+</ion-content>

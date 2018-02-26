@@ -1,14 +1,71 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>
-      Ionic Blank
-    </ion-title>
-  </ion-navbar>
-</ion-header>
 
+  <ion-navbar>
+    <ion-title>Rentals</ion-title>
+
+    <ion-buttons end>
+        <button ion-button icon-only (click)="logout()">
+          <ion-icon name="log-out"></ion-icon>
+        </button>
+      </ion-buttons>
+
+  </ion-navbar>
+
+</ion-header>
 <ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+
+<ion-card color='primary'>
+  <ion-card-header text-left (click)="openPage('SoaPage')">
+    <ion-icon name="stats"></ion-icon>&nbsp;Tenant statement
+  </ion-card-header>
+</ion-card>
+  
+<ion-card color='primary'>
+  <ion-card-header text-left (click)="openPage('PaymentsPage')">
+      <ion-icon name="cash"></ion-icon>&nbsp;Receive payment
+  </ion-card-header>
+</ion-card>    
+
+<ion-card color='primary'>
+  <ion-card-header text-left (click)="openPage('BillsPage')">
+      <ion-icon name="paper"></ion-icon>&nbsp;Bills
+  </ion-card-header>
+</ion-card>  
+
+<ion-card color='primary'>
+  <ion-card-header text-left (click)="openPage('BatchBillsPage')">
+      <ion-icon name="paper"></ion-icon>&nbsp;Batch billing
+  </ion-card-header>
+</ion-card>  
+
+<ion-card color='primary'>
+  <ion-card-header text-left (click)="openPage('PowerMeterReadingsPage')">
+      <ion-icon name="calculator"></ion-icon>&nbsp;Power meter reading
+  </ion-card-header>
+</ion-card>
+
+<ion-card color='primary'>
+  <ion-card-header text-left (click)="openPage('LesseesPage')">
+      <ion-icon name="contacts"></ion-icon>&nbsp;Lessees
+  </ion-card-header>
+</ion-card>  
+
+<ion-card color='primary'>
+  <ion-card-header text-left (click)="openPage('UnitsPage')">
+      <ion-icon name="home"></ion-icon>&nbsp;Units
+  </ion-card-header>
+</ion-card> 
+
+<ion-card color='primary'>
+  <ion-card-header text-left (click)="openPage('PowerMetersPage')">
+      <ion-icon name="flash"></ion-icon>&nbsp;Power meters
+  </ion-card-header>
+</ion-card>
+
+<ion-card color='primary'>
+  <ion-card-header text-left (click)="openPage('UsersPage')">
+      <ion-icon name="people"></ion-icon>&nbsp;Users
+  </ion-card-header>
+</ion-card> 
+
 </ion-content>

@@ -1,0 +1,63 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title></ion-title>
+
+    <ion-buttons end>
+        <button ion-button color="primary" (click)="save()">
+            <ion-icon name="checkmark"></ion-icon>&nbsp;Save
+        </button>
+        <button ion-button full color='danger' (click)="delete()" *ngIf="!new_record" >
+            <ion-icon name="trash"></ion-icon>&nbsp;Delete
+        </button>
+      </ion-buttons>        
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+    <ion-item>
+      <ion-label floating>Number</ion-label>
+      <ion-input type="text" [(ngModel)]='unit.nmbr'></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Area</ion-label>
+      <ion-input type="number" [(ngModel)]='unit.area'></ion-input>
+    </ion-item>              
+    
+    <ion-item>
+        <ion-label floating>Power meter</ion-label>
+        <ion-select [(ngModel)]="unit.power_meter_nmbr">
+          <ion-option value=''>[NONE]</ion-option>
+          <ion-option *ngFor='let power_meter of power_meters' value={{power_meter.nmbr}}>
+            {{power_meter.nmbr}}
+          </ion-option>
+        </ion-select>
+      </ion-item>       
+
+    <ion-item>
+      <ion-label floating>Lessee</ion-label>
+      <ion-select [(ngModel)]="unit.lessee_uid">
+        <ion-option value='0'>[VACANT]</ion-option>
+        <ion-option *ngFor='let lessee of lessees' value={{lessee.uid}}>
+          {{lessee.last_name+' '+lessee.first_name}}
+        </ion-option>
+      </ion-select>
+    </ion-item>       
+
+    <ion-item>
+      <ion-label floating>Monthly lease</ion-label>
+      <ion-input type="text" [(ngModel)]='unit.monthly_lease'></ion-input>
+    </ion-item>          
+
+    <ion-item>
+      <ion-label floating>Remarks</ion-label>
+      <ion-input type="text" [(ngModel)]='unit.remarks'></ion-input>
+    </ion-item>      
+
+
+
+</ion-content>

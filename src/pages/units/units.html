@@ -1,0 +1,35 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Units <ion-badge item-end>{{units.length}}</ion-badge></ion-title>
+
+    <ion-buttons end>
+        <button ion-button color="primary" (click)="open(-1)">
+          <ion-icon name="add"></ion-icon>&nbsp;New
+        </button>
+      </ion-buttons>    
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content >
+  <ion-searchbar (ionInput)="search($event)"></ion-searchbar>
+
+  <ion-card *ngFor="let unit of units; let i = index" (click)="open(i)">
+    <ion-card-header>
+      {{unit.nmbr}}
+      <div>
+        <span float-left *ngIf="0!=unit.area">Area: {{unit.area}} Sqm.</span>      
+        <span float-right *ngIf="''!=unit.power_meter_nmbr">Power meter # {{unit.power_meter_nmbr}}</span>
+      </div>
+    </ion-card-header>
+    <ion-card-content>
+      <span float-left *ngIf="0!=unit.lessee_uid">Lessee: {{get_lessee_name(unit.lessee_uid)}}</span>
+      <span float-right *ngIf="0!=unit.lessee_uid">Monthly lease: {{unit.monthly_lease|number:'1.2-2'}}</span>
+    </ion-card-content>
+  </ion-card>
+
+
+
+</ion-content>

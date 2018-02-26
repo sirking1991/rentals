@@ -1,0 +1,55 @@
+<ion-header>
+
+    <ion-navbar>
+      <ion-title></ion-title>
+  
+      <ion-buttons end>
+          <button ion-button color="primary" (click)="save()">
+              <ion-icon name="checkmark"></ion-icon>&nbsp;Save
+          </button>
+          <button ion-button full color='danger' (click)="delete()" *ngIf="!new_record" >
+              <ion-icon name="trash"></ion-icon>&nbsp;Delete
+          </button>
+        </ion-buttons>        
+    </ion-navbar>
+  
+  </ion-header>
+  
+  
+  <ion-content padding>
+  
+      <ion-item>
+        <ion-label floating>Number</ion-label>
+        <ion-input type="text" [(ngModel)]='bill.nmbr'></ion-input>
+      </ion-item>
+      
+      <ion-item>
+        <ion-label floating>Date</ion-label>
+        <ion-datetime displayFormat="YYYY-MM-DD" [(ngModel)]='bill.date'></ion-datetime>
+      </ion-item>
+  
+      <ion-item>
+          <ion-label floating>Unit</ion-label>
+          <ion-select [(ngModel)]="bill.unit_uid">
+            <ion-option value='0'>[SELECT UNIT]</ion-option>
+            <ion-option *ngFor='let unit of units' value={{unit.uid}}>
+              {{unit.nmbr}}
+            </ion-option>
+          </ion-select>
+        </ion-item>  
+    
+      <ion-item>
+        <ion-label floating>Amount</ion-label>
+        <ion-input type="number" [(ngModel)]='bill.amount'></ion-input>
+      </ion-item>      
+  
+      <ion-item>
+        <ion-label floating>Remarks</ion-label>
+        <ion-input type="text" [(ngModel)]='bill.remarks'></ion-input>
+      </ion-item>      
+      
+      
+  
+  
+  </ion-content>
+  

@@ -1,0 +1,27 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Lessees <ion-badge item-end>{{lessees.length}}</ion-badge></ion-title>
+
+    <ion-buttons end>
+        <button ion-button color="primary" (click)="open(-1)">
+          <ion-icon name="add"></ion-icon>&nbsp;New
+        </button>
+      </ion-buttons>    
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content >
+  <ion-searchbar (ionInput)="search($event)"></ion-searchbar>
+
+  <ion-card *ngFor="let lessee of lessees; let i = index" (click)="open(i)">
+    <ion-card-header>
+      {{lessee.last_name+' '+lessee.first_name}}
+    </ion-card-header>
+  </ion-card>
+
+
+
+</ion-content>
