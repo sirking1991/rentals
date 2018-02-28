@@ -16,7 +16,7 @@
   </ion-header>
   
   
-  <ion-content padding>
+  <ion-content>
   
       <ion-item>
         <ion-label floating>Number</ion-label>
@@ -33,7 +33,7 @@
           <ion-select [(ngModel)]="bill.unit_uid">
             <ion-option value='0'>[SELECT UNIT]</ion-option>
             <ion-option *ngFor='let unit of units' value={{unit.uid}}>
-              {{unit.nmbr}}
+              {{unit.nmbr}} - {{gs.get_lessee_name(lessees, unit.lessee_uid)}}
             </ion-option>
           </ion-select>
         </ion-item>  

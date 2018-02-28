@@ -1,0 +1,35 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Payments <ion-badge item-end>{{payments.length}}</ion-badge></ion-title>
+
+    <ion-buttons end>
+        <button ion-button color="primary" (click)="dateFilters()">
+            <ion-icon name="funnel"></ion-icon>&nbsp;Filter
+          </button>
+        <button ion-button color="primary" (click)="open(-1)">
+          <ion-icon name="add"></ion-icon>&nbsp;New
+        </button>
+      </ion-buttons>    
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content >
+  <ion-searchbar (ionInput)="search($event)"></ion-searchbar>
+
+  <ion-card *ngFor="let payment of payments; let i = index" (click)="open(i)">
+    <ion-card-header>
+      {{payment.nmbr+' / '+payment.date}}
+      <span float-right>{{payment.amount|number:'1.2-2'}}</span>
+    </ion-card-header>
+    <ion-card-content>
+      <span float-left>{{gs.get_lessee_name(lessees, payment.lessee_uid)}}</span>
+      <span float-right>{{gs.get_unit_nmbr(units, payment.unit_uid)}}</span>
+    </ion-card-content>
+  </ion-card>
+
+
+
+</ion-content>

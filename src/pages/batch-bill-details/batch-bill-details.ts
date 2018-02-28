@@ -59,7 +59,7 @@ export class BatchBillDetailsPage {
             unit_uid:   unit.uid,
             lessee_uid: unit.lessee_uid,
             remarks:    this.batch_bill.remarks,
-            amount:     unit.monthly_lease
+            amount:     this.gs.roundMoney(unit.monthly_lease)
           });
           ctr++;
         }
@@ -78,14 +78,15 @@ export class BatchBillDetailsPage {
         }
       }
       readings.forEach(reading=>{
-        let amount = (reading.current-reading.previous) * reading.multiplier * this.batch_bill.rate;
+        let amount = this.gs.roundMoney( (reading.current-reading.previous) * reading.multiplier * this.batch_bill.rate );
+
         this.batch_bill.details.push({
           nmbr:       prefix+'-'+ctr,
           date:       this.batch_bill.date,
           unit_uid:   reading.unit_uid,
           unit_nmbr:  reading.unit_nmbr,
           lessee_uid: reading.lessee_uid,
-          remarks:    '('+reading.current+' - '+reading.previous+') x '+reading.multiplier+' x '+this.batch_bill.rate+' = '+amount,
+          remarks:    '('+reading.current+' - '+reading.previous+') x '+reading.multiplier+' x '+this.batch_bill.rate+' = ' + this.gs.formatMoney(amount),
           amount:     amount
         });
         ctr++;

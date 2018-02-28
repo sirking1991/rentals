@@ -25,8 +25,8 @@
         <span float-right>{{bill.amount|number:'1.2-2'}}</span>
       </ion-card-header>
       <ion-card-content>
-        <span float-left>{{get_lessee_name(bill.lessee_uid)}}</span>
-        <span float-right>{{get_unit_nmbr(bill.unit_uid)}}</span>
+        <span float-left>{{gs.get_lessee_name(lessees, bill.lessee_uid)}}</span>
+        <span float-right>{{gs.get_unit_nmbr(units, bill.unit_uid)}}</span>
       </ion-card-content>
     </ion-card>
   

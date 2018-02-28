@@ -1,0 +1,55 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title></ion-title>
+
+    <ion-buttons end>
+        <button ion-button color="primary" (click)="save()">
+            <ion-icon name="checkmark"></ion-icon>&nbsp;Save
+        </button>
+        <button ion-button full color='danger' (click)="delete()" *ngIf="!new_record" >
+            <ion-icon name="trash"></ion-icon>&nbsp;Delete
+        </button>
+      </ion-buttons>        
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+
+    <ion-item>
+      <ion-label floating>Number</ion-label>
+      <ion-input type="text" [(ngModel)]='payment.nmbr'></ion-input>
+    </ion-item>
+    
+    <ion-item>
+      <ion-label floating>Date</ion-label>
+      <ion-datetime displayFormat="YYYY-MM-DD" [(ngModel)]='payment.date'></ion-datetime>
+    </ion-item>
+
+    <ion-item>
+        <ion-label floating>Unit</ion-label>
+        <ion-select [(ngModel)]="payment.unit_uid">
+          <ion-option value='0'>[SELECT UNIT]</ion-option>
+          <ion-option *ngFor='let unit of units' value={{unit.uid}}>
+            {{unit.nmbr}} - {{gs.get_lessee_name(lessees, unit.lessee_uid)}}
+          </ion-option>
+        </ion-select>
+      </ion-item>  
+  
+    <ion-item>
+      <ion-label floating>Amount</ion-label>
+      <ion-input type="number" [(ngModel)]='payment.amount'></ion-input>
+    </ion-item>      
+
+    <ion-item>
+      <ion-label floating>Remarks</ion-label>
+      <ion-input type="text" [(ngModel)]='payment.remarks'></ion-input>
+    </ion-item>      
+    
+    <ion-item>
+        <button ion-button full (click)="open_payment_application()">Payment application</button>
+      </ion-item>
+
+</ion-content>

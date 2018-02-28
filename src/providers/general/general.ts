@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { LoadingController, AlertController, ToastController } from 'ionic-angular';
+import { LoadingController, AlertController, ToastController, ModalController } from 'ionic-angular';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
@@ -22,8 +22,10 @@ export class GeneralProvider {
   constructor(public http: HttpClient,
               public loadingCtrl: LoadingController,
               public alertCtrl: AlertController,
+              public modalCtrl: ModalController,
               public toastCtrl: ToastController) {
     console.log('Hello GeneralProvider Provider');
+    
   }
 
 
@@ -57,4 +59,33 @@ export class GeneralProvider {
                   d.getHours() + ':' + d.getMinutes() + ':' +d.getSeconds() ;
   }  
 
+  get_lessee_name(lessees, uid): string {
+    let name = '';
+    for(let i=0; i<lessees.length; i++) {
+      if (uid==lessees[i].uid) {
+        name = lessees[i].last_name+' '+lessees[i].first_name;
+        break;
+      }
+    }
+    return name;
+  }
+
+  get_unit_nmbr(units, uid): string {
+    let nmbr = '';
+    for(let i=0; i<units.length; i++) {
+      if (uid==units[i].uid) {
+        nmbr = units[i].nmbr;
+        break;
+      }
+    }
+    return nmbr;
+  } 
+
+  formatMoney(n) {
+    return n.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+  }
+
+  roundMoney(n) {
+    return Math.round(n * 100) / 100;
+  }
 }

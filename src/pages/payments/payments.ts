@@ -5,16 +5,16 @@ import { GeneralProvider } from '../../providers/general/general';
 
 @IonicPage()
 @Component({
-  selector: 'page-bills',
-  templateUrl: 'bills.html',
+  selector: 'page-payments',
+  templateUrl: 'payments.html',
 })
-export class BillsPage {
+export class PaymentsPage {
 
   date_from:string;
   date_to:string;
 
   _data = [];
-  bills = [];
+  payments = [];
   units = [];
   lessees = []
 
@@ -46,12 +46,12 @@ export class BillsPage {
   }
 
   reloadData(){
-    this.gs.http.get(this.gs.api_url+'Bills/?date_from='+this.date_from+'&date_to='+this.date_to, {headers: this.gs.http_header})
+    this.gs.http.get(this.gs.api_url+'Payments/?date_from='+this.date_from+'&date_to='+this.date_to, {headers: this.gs.http_header})
       .subscribe(
         resp=>{
           if ('OK'==resp['status']) {
             this._data = resp['data'];
-            this.bills = this._data;
+            this.payments = this._data;
           }
         },
         error=>{this.gs.presentHttpError(error);}
@@ -81,24 +81,26 @@ export class BillsPage {
   }
 
   open(i) {
-    this.navCtrl.push("BillDetailsPage",{bill:this.bills[i], lessees:this.lessees, units:this.units});
+    this.navCtrl.push("PaymentDetailsPage",{payment:this.payments[i], lessees:this.lessees, units:this.units});
   }
 
   search(ev: any) {
-    this.bills = this._data;  // reset
+    this.payments = this._data;  // reset
 
     // set val to the value of the searchbar
     let val = ev.target.value;
 
-    // if the value is an empty string don't filter the bills
+    // if the value is an empty string don't filter the payments
     if (val && val.trim() != '') {
-      this.bills = this.bills.filter((bill) => {
-        return (bill.nmbr.toLowerCase().indexOf(val.toLowerCase()) > -1) 
-        || (bill.date.toLowerCase().indexOf(val.toLowerCase()) > -1)
-        || (bill.remarks.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      this.payments = this.payments.filter((payment) => {
+        return (payment.nmbr.toLowerCase().indexOf(val.toLowerCase()) > -1) 
+        || (payment.date.toLowerCase().indexOf(val.toLowerCase()) > -1)
+        || (payment.remarks.toLowerCase().indexOf(val.toLowerCase()) > -1);
       })
     }
   }
+
+   
 
  
 }
