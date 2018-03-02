@@ -25,15 +25,19 @@ export class BatchBillsPage {
   }
 
   reloadData(){
+    let load = this.gs.loadCtrl.create({content:'Loading data...'});
+    load.present();
     this.gs.http.get(this.gs.api_url+'Bills/Batches', {headers: this.gs.http_header})
       .subscribe(
         resp=>{
+          load.dismiss();
           if ('OK'==resp['status']) {
             this._data = resp['data'];
             this.batch_bills = this._data;
           }
         },
         error=>{
+          load.dismiss();
           this.gs.presentHttpError(error);
         }
       );

@@ -35,6 +35,7 @@ class Users extends CI_Controller {
                 'first_name'    => $post->first_name,
                 'last_name'     => $post->last_name,
                 'password'      => $post->password,
+                'permissions'   => $post->permissions,
                 'created_by'    => $this->auth_info->user_code,
                 'created_on'    => date('Y-m-d H:i:s')
             ));
@@ -50,6 +51,7 @@ class Users extends CI_Controller {
                 'first_name'    => $post->first_name,
                 'last_name'     => $post->last_name,
                 'password'      => $post->password,
+                'permissions'   => $post->permissions,
                 'edited_by'    => $this->auth_info->user_code,
                 'edited_on'    => date('Y-m-d H:i:s')
             ));

@@ -31,6 +31,7 @@ export class LesseeDetailsPage {
 
   save(){
     if(this.new_record) {
+      if (!this.gs.user_has_permission('LesseesPage', 'add', true)) return;
       // new record
       this.gs.http.post(this.gs.api_url+'Lessees', JSON.stringify(this.lessee), {headers: this.gs.http_header})
         .subscribe(
@@ -38,6 +39,7 @@ export class LesseeDetailsPage {
           error=>{console.log(error);}
         );
     } else {
+      if (!this.gs.user_has_permission('LesseesPage', 'edit', true)) return;
       // update record
       this.gs.http.put(this.gs.api_url+'Lessees', JSON.stringify(this.lessee), {headers: this.gs.http_header})
         .subscribe(
@@ -49,6 +51,7 @@ export class LesseeDetailsPage {
   }
 
   delete(){
+    if (!this.gs.user_has_permission('LesseesPage', 'delete', true)) return;
     this.gs.alertCtrl.create({
       title: 'Confirm record delete',
       buttons: [

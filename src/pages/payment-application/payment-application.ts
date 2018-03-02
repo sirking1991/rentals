@@ -19,7 +19,7 @@ export class PaymentApplicationPage {
               public viewCtrl: ViewController,
               public gs: GeneralProvider) {
     this.payment      = navParams.get('payment');
-    this.applications = navParams.get('applications');
+    this.applications = this.payment.applications;
     // get unpaid bills
     this.get_unpaid_bills();
 
@@ -31,10 +31,13 @@ export class PaymentApplicationPage {
 
 
   get_unpaid_bills(){
+    let load = this.gs.loadCtrl.create({content:'Loading data...'});
+    load.present();
     this.unpaid_bills = [];
     this.gs.http.get(this.gs.api_url+'Bills/unpaid_bills/?lessee_uid='+this.payment.lessee_uid+'&exclude_payment_uid='+this.payment.uid, {headers: this.gs.http_header})
       .subscribe(
         resp=>{
+          load.dismiss();
           if ('OK'==resp['status']) {
             resp['data'].forEach(d=>{
               // since the balance from server does not include application for this payment, we need to deduct any application from this payment
@@ -49,7 +52,10 @@ export class PaymentApplicationPage {
             });
           }
         },
-        error=>{console.log(error);}
+        error=>{
+          load.dismiss();
+          console.log(error);
+        }
       );  
   }
 

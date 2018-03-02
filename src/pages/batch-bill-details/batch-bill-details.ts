@@ -44,6 +44,8 @@ export class BatchBillDetailsPage {
   }
 
   generateBills(){
+    if (!this.gs.user_has_permission('BatchBillsPage', 'generate', true)) return;
+
     if (0<this.batch_bill.details.length) return;    // don't generate if there is already bills
 
     let dt = new Date(this.batch_bill.date);

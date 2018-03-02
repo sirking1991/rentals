@@ -1,0 +1,30 @@
+<ion-header>
+
+    <ion-navbar>
+      <ion-title>User permissions</ion-title>
+  
+      <ion-buttons end>
+          <button ion-button full (click)="close()">
+              <ion-icon name="close"></ion-icon>&nbsp;Close
+          </button>
+        </ion-buttons>      
+    </ion-navbar>
+  
+  </ion-header>
+
+
+<ion-content padding>
+
+  <ion-card *ngFor="let resource of resources; let i = index;" (click)="openPerm(i)">
+    <ion-card-header>{{resource.name}}</ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row> 
+          <ion-col *ngFor="let perm of resource.req_perm;">{{perm.label}}:{{user_has_permission(resource.id, perm.id)?'Yes':'No'}}</ion-col>
+        </ion-row>
+      </ion-grid>
+      
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

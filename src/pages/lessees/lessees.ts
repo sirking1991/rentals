@@ -25,15 +25,19 @@ export class LesseesPage {
   }
 
   reloadData(){
+    let load = this.gs.loadCtrl.create({content:'Loading data...'});
+    load.present();
     this.gs.http.get(this.gs.api_url+'Lessees', {headers: this.gs.http_header})
       .subscribe(
         resp=>{
+          load.dismiss();
           if ('OK'==resp['status']) {
             this._data = resp['data'];
             this.lessees = this._data;
           }
         },
         error=>{
+          load.present();
           this.gs.presentHttpError(error);
         }
       );

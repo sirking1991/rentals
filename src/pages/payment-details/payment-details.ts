@@ -9,6 +9,7 @@ import { GeneralProvider } from '../../providers/general/general';
 })
 export class PaymentDetailsPage {
 
+
   payment: any;
   new_record: boolean = false;
   units = [];
@@ -26,17 +27,17 @@ export class PaymentDetailsPage {
     this.lessees = this.navParams.get('lessees');
     this.payment = this.navParams.get('payment');
 
-    this.get_applied_payments();
-
     if(undefined==this.payment) {
       this.new_record = true;
       this.payment = {uid:0, nmbr:'', date:this.gs.dateToday(), lessee_uid:0, unit_uid:0, amount:0, remarks:'', applications:[]}
     }
 
+    this.get_applied_payments();
+
   }
 
   open_payment_application(){
-    let modal = this.gs.modalCtrl.create('PaymentApplicationPage', { payment: this.payment, applications: this.payment.applications });
+    let modal = this.gs.modalCtrl.create('PaymentApplicationPage', { payment: this.payment });
     modal.onDidDismiss((data)=>{
       this.payment.applications = data;
     });
@@ -65,6 +66,9 @@ export class PaymentDetailsPage {
 
   save(){
     if(this.new_record) {
+      // check permission
+      if (!this.gs.user_has_permission('PaymentsPage', 'add', true)) return;
+
       // new record
       this.gs.http.post(this.gs.api_url+'Payments', JSON.stringify(this.payment), {headers: this.gs.http_header})
         .subscribe(
@@ -72,6 +76,9 @@ export class PaymentDetailsPage {
           error=>{console.log(error);}
         );
     } else {
+      // check permission
+      if (!this.gs.user_has_permission('PaymentsPage', 'edit', true)) return;
+
       // update record
       this.gs.http.put(this.gs.api_url+'Payments', JSON.stringify(this.payment), {headers: this.gs.http_header})
         .subscribe(
@@ -83,6 +90,9 @@ export class PaymentDetailsPage {
   }
 
   delete(){
+    // check permission
+    if (!this.gs.user_has_permission('PaymentsPage', 'delete', true)) return;
+
     this.gs.alertCtrl.create({
       title: 'Confirm record delete',
       buttons: [

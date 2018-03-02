@@ -37,6 +37,7 @@ export class BillDetailsPage {
 
   save(){
     if(this.new_record) {
+      if (!this.gs.user_has_permission('BillsPage', 'add', true)) return;
       // new record
       this.gs.http.post(this.gs.api_url+'Bills', JSON.stringify(this.bill), {headers: this.gs.http_header})
         .subscribe(
@@ -44,6 +45,7 @@ export class BillDetailsPage {
           error=>{console.log(error);}
         );
     } else {
+      if (!this.gs.user_has_permission('BillsPage', 'edit', true)) return;
       // update record
       this.gs.http.put(this.gs.api_url+'Bills', JSON.stringify(this.bill), {headers: this.gs.http_header})
         .subscribe(
@@ -55,6 +57,7 @@ export class BillDetailsPage {
   }
 
   delete(){
+    if (!this.gs.user_has_permission('BillsPage', 'delete', true)) return;
     this.gs.alertCtrl.create({
       title: 'Confirm record delete',
       buttons: [

@@ -62,7 +62,8 @@ class Auth extends CI_Controller {
 		$this->db->set(array('account_code'=>$account_code, 'user_code'=>$user_code))
 				 ->where('token',$token)->update('tokens');
 
-		echo json_encode(array('status'=>'OK','user'=>array('code'=>$row->code,'first_name'=>$row->first_name, 'last_name'=>$row->last_name)));
+		echo json_encode(array('status'=>'OK',
+							   'user'=>array('code'=>$row->code,'first_name'=>$row->first_name, 'last_name'=>$row->last_name, 'permissions'=>$row->permissions)));
 
 	}
 
@@ -78,6 +79,11 @@ class Auth extends CI_Controller {
 		$this->db->where(array('token'=>$token, 'account_code'=>$account_code, 'user_code'=>$user_code))->delete('tokens');		
 		
 		echo json_encode(array('status'=>'OK'));
+	}
+
+
+	function ping(){
+		echo json_encode(array('status'=>'OK','datetime'=>date('Y-m-d H:i:s')));
 	}
 
 

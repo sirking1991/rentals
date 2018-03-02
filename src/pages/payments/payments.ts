@@ -46,15 +46,21 @@ export class PaymentsPage {
   }
 
   reloadData(){
+    let load = this.gs.loadCtrl.create({content:'Loading data...'});
+    load.present();
     this.gs.http.get(this.gs.api_url+'Payments/?date_from='+this.date_from+'&date_to='+this.date_to, {headers: this.gs.http_header})
       .subscribe(
         resp=>{
+          load.dismiss();
           if ('OK'==resp['status']) {
             this._data = resp['data'];
             this.payments = this._data;
           }
         },
-        error=>{this.gs.presentHttpError(error);}
+        error=>{
+          load.dismiss();
+          this.gs.presentHttpError(error);
+        }
       );
   }
 

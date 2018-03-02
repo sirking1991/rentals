@@ -25,15 +25,19 @@ export class PowerMeterReadingsPage {
   }
 
   reloadData(){
+    let load = this.gs.loadCtrl.create({content:'Loading data...'});
+    load.present();
     this.gs.http.get(this.gs.api_url+'PowerMeters/Readings', {headers: this.gs.http_header})
       .subscribe(
         resp=>{
+          load.dismiss();
           if ('OK'==resp['status']) {
             this._data = resp['data'];
             this.power_meter_readings = this._data;
           }
         },
         error=>{
+          load.present();
           this.gs.presentHttpError(error);
         }
       );

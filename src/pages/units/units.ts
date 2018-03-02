@@ -39,15 +39,19 @@ export class UnitsPage {
   }
 
   reloadData(){
+    let load = this.gs.loadCtrl.create({content:'Loading data...'});
+    load.present();
     this.gs.http.get(this.gs.api_url+'Units', {headers: this.gs.http_header})
       .subscribe(
         resp=>{
+          load.dismiss();
           if ('OK'==resp['status']) {
             this._data = resp['data'];
             this.units = this._data;
           }
         },
         error=>{
+          load.dismiss();
           this.gs.presentHttpError(error);
         }
       );

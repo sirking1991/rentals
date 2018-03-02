@@ -9,6 +9,10 @@ import { GeneralProvider } from '../providers/general/general';
 
 import { HttpClientModule } from '@angular/common/http';
 
+import { Device } from '@ionic-native/device';
+import { PrintProvider } from '../providers/print/print';
+import { BluetoothSerial } from '@ionic-native/bluetooth-serial';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -26,7 +30,10 @@ import { HttpClientModule } from '@angular/common/http';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    GeneralProvider
+    GeneralProvider,
+    BluetoothSerial,
+    Device,
+    PrintProvider,
   ]
 })
 export class AppModule {}

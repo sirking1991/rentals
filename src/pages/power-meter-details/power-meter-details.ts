@@ -31,6 +31,8 @@ export class PowerMeterDetailsPage {
 
   save(){
     if(this.new_record) {
+      if (!this.gs.user_has_permission('PowerMetersPage', 'add', true)) return;
+
       // new record
       this.gs.http.post(this.gs.api_url+'PowerMeters', JSON.stringify(this.power_meter), {headers: this.gs.http_header})
         .subscribe(
@@ -38,6 +40,8 @@ export class PowerMeterDetailsPage {
           error=>{console.log(error);}
         );
     } else {
+      if (!this.gs.user_has_permission('PowerMetersPage', 'edit', true)) return;
+
       // update record
       this.gs.http.put(this.gs.api_url+'PowerMeters', JSON.stringify(this.power_meter), {headers: this.gs.http_header})
         .subscribe(
@@ -49,6 +53,7 @@ export class PowerMeterDetailsPage {
   }
 
   delete(){
+    if (!this.gs.user_has_permission('PowerMetersPage', 'delete', true)) return;
     this.gs.alertCtrl.create({
       title: 'Confirm record delete',
       buttons: [

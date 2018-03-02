@@ -1,31 +1,101 @@
 import { Injectable } from '@angular/core';
-import { LoadingController, AlertController, ToastController, ModalController } from 'ionic-angular';
+import { AlertController, 
+         ToastController, 
+         ModalController, 
+         LoadingController, 
+         Platform, 
+         Button} from 'ionic-angular';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import 'rxjs/add/operator/map';
+import { Device } from '@ionic-native/device';
 
 @Injectable()
 export class GeneralProvider {
   
   month_names = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 
-  api_url   = 'http://rentals-api.localhost/index.php/';
+  api_url   = 'https://api.rentals.zeenarf.com/index.php/';
 
   account_code:string;
   user:any;
   token:string;
+
   logged_in = false;
+
+  network_online = true;
+  user_notified = false;
+  on_device = false;
   
   http_header;
 
+  public selectedPrinter:any=[];
+
   constructor(public http: HttpClient,
-              public loadingCtrl: LoadingController,
               public alertCtrl: AlertController,
               public modalCtrl: ModalController,
-              public toastCtrl: ToastController) {
+              public toastCtrl: ToastController,
+              public loadCtrl: LoadingController,
+              private device: Device,
+              private platform: Platform) {
     console.log('Hello GeneralProvider Provider');
     
+    if( false==this.on_device ) this.api_url = 'http://rentals-api.localhost/index.php/';
+
+    // ping server to check if we're online or offline
+    window.setInterval(() => {
+      this.ping();
+    }, 60*1000);
+
+    this.on_device = this.platform.is('cordova');
+  }
+
+
+  ping(){
+    this.http.get(this.api_url+'Auth/ping')
+    .subscribe(
+      data => {
+        if(!this.network_online) {
+          this.user_notified = false;
+          this.toastCtrl.create({message:'Network connection established', duration:3000}).present()
+        }
+        this.network_online = true;
+      },
+      error => {        
+        if(!this.user_notified) {
+          this.user_notified = true;
+          this.toastCtrl.create({message:'No network connection', showCloseButton:true}).present()
+        }
+        this.network_online = false;
+      }
+    );
+  }
+  
+  user_has_permission(resource_id, perm_id, prompt): boolean{
+    let permissions = JSON.parse(this.user.permissions);
+    let has_access: boolean = false;
+    for(let i=0; i<permissions.length; i++) {
+      if (resource_id==permissions[i].resource_id) {
+        for(let i2=0; i2<permissions[i].perm.length; i2++) {
+          if (perm_id==permissions[i].perm[i2]) {
+            has_access = true; 
+            break;
+          }
+        };
+      }
+    }
+    
+    if (!has_access && prompt) this.promptDeniedAccess(resource_id, perm_id);
+    
+    return has_access;
+  }
+
+  promptDeniedAccess(resource_id, perm) {
+    this.alertCtrl.create({subTitle:"Access denied",
+                           message:"You do not have "+perm+" permission to " + resource_id,
+                           buttons: ['OK']
+    }).present();
   }
 
 

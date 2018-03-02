@@ -36,6 +36,8 @@ export class UnitDetailsPage {
 
   save(){
     if(this.new_record) {
+      if (!this.gs.user_has_permission('UnitsPage', 'add', true)) return;
+
       // new record
       this.gs.http.post(this.gs.api_url+'Units', JSON.stringify(this.unit), {headers: this.gs.http_header})
         .subscribe(
@@ -43,6 +45,8 @@ export class UnitDetailsPage {
           error=>{console.log(error);}
         );
     } else {
+      if (!this.gs.user_has_permission('UnitsPage', 'edit', true)) return;
+
       // update record
       this.gs.http.put(this.gs.api_url+'Units', JSON.stringify(this.unit), {headers: this.gs.http_header})
         .subscribe(
@@ -54,6 +58,8 @@ export class UnitDetailsPage {
   }
 
   delete(){
+    if (!this.gs.user_has_permission('UnitsPage', 'delete', true)) return;
+
     this.gs.alertCtrl.create({
       title: 'Confirm record delete',
       buttons: [

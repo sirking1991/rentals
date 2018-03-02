@@ -40,7 +40,9 @@ export class LoginPage {
   }
 
   login(){
-    this.login_btn_label = 'Please wait...';
+    let load = this.gs.loadCtrl.create({content:'Processing...'});
+    load.present();
+    //this.login_btn_label = 'Please wait...';
     let enc_password = CryptoJS.SHA256(this.password+this.token).toString(CryptoJS.enc.Hex);
     let body = {account_code: this.account_code, 
                 user_code:    this.user_code, 
@@ -49,6 +51,7 @@ export class LoginPage {
     this.gs.http.post(this.gs.api_url+'Auth/user_login',body)
       .subscribe(
         resp=>{
+          load.dismiss();
           this.login_btn_label = 'Login';
           if ('OK'==resp['status']) {
             this.gs.account_code = this.account_code;
@@ -65,6 +68,7 @@ export class LoginPage {
           }
         },
         error=>{
+          load.dismiss();
           this.gs.presentHttpError(error);
         }
       );

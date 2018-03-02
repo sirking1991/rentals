@@ -23,7 +23,7 @@ export class UserDetailsPage {
     this.user = this.navParams.get('user');
     if(undefined==this.user) {
       this.new_record = true;
-      this.user = {uid: 0, code:'', first_name: '', last_name:'',  password:''}
+      this.user = {uid: 0, code:'', first_name: '', last_name:'',  password:'', permissions:'[]'}
     }
 
   }
@@ -31,6 +31,8 @@ export class UserDetailsPage {
 
   save(){
     if(this.new_record) {
+      // check permission
+      if (!this.gs.user_has_permission('UsersPage', 'add', true)) return;      
       // new record
       this.gs.http.post(this.gs.api_url+'Users', JSON.stringify(this.user), {headers: this.gs.http_header})
         .subscribe(
@@ -38,6 +40,8 @@ export class UserDetailsPage {
           error=>{console.log(error);}
         );
     } else {
+      // check permission
+      if (!this.gs.user_has_permission('UsersPage', 'edit', true)) return;
       // update record
       this.gs.http.put(this.gs.api_url+'Users', JSON.stringify(this.user), {headers: this.gs.http_header})
         .subscribe(
@@ -49,6 +53,9 @@ export class UserDetailsPage {
   }
 
   delete(){
+    // check permission
+    if (!this.gs.user_has_permission('UsersPage', 'delete', true)) return;
+
     this.gs.alertCtrl.create({
       title: 'Confirm record delete',
       buttons: [
@@ -66,6 +73,14 @@ export class UserDetailsPage {
         }
       ]
     }).present();
+  }
+
+  permissions(){
+    let modal = this.gs.modalCtrl.create('UserPermissionsPage', { permissions: this.user.permissions });
+    modal.onDidDismiss((data)=>{
+      this.user.permissions = JSON.stringify(data);
+    });
+    modal.present();
   }
 
 }

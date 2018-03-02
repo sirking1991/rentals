@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController} from 'ionic-angular';
 import { GeneralProvider } from '../../providers/general/general';
 
 
@@ -16,9 +16,7 @@ export class SoaPage {
   output: string = '';
   has_output: boolean = false;
 
-  constructor(private navCtrl: NavController, 
-              private navParams: NavParams,
-              private loadCtrl: LoadingController,
+  constructor(private navCtrl: NavController,               
               public gs: GeneralProvider) {
     if(!this.gs.logged_in) {
       this.navCtrl.setRoot('LoginPage');
@@ -41,8 +39,8 @@ export class SoaPage {
 
   generate(){
     let req_lessees = [];
-    let load = this.loadCtrl.create({content:'Generating...'});
-    //load.present();
+    let load = this.gs.loadCtrl.create({content:'Generating...'});
+    load.present();
     if (0==this.lessee_uid) {
         // for all lessee request
         this.lessees.forEach(lessee=>{req_lessees.push(lessee.uid)});
@@ -54,9 +52,8 @@ export class SoaPage {
     this.gs.http.get(this.gs.api_url+'Bills/soa/?lessees='+JSON.stringify(req_lessees), {headers: this.gs.http_header})
     .subscribe(
       resp=>{
-        //load.dismiss();
+        load.dismiss();
         if ('OK'==resp['status']) {
-          let content = '';
           resp['data'].forEach(data=>{
             this.output += this.format_soa(data);
           });
