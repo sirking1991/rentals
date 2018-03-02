@@ -41,6 +41,8 @@ export class GeneralProvider {
               private platform: Platform) {
     console.log('Hello GeneralProvider Provider');
     
+    this.on_device = this.platform.is('cordova');
+
     if( false==this.on_device ) this.api_url = 'http://rentals-api.localhost/index.php/';
 
     // ping server to check if we're online or offline
@@ -48,7 +50,7 @@ export class GeneralProvider {
       this.ping();
     }, 60*1000);
 
-    this.on_device = this.platform.is('cordova');
+    
   }
 
 

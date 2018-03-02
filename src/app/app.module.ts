@@ -14,6 +14,7 @@ import { PrintProvider } from '../providers/print/print';
 import { BluetoothSerial } from '@ionic-native/bluetooth-serial';
 import { HomePage } from '../pages/home/home';
 
+
 @NgModule({
   declarations: [
     MyApp,

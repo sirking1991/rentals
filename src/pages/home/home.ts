@@ -14,6 +14,9 @@ export class HomePage {
   constructor(public navCtrl: NavController,
               private gs: GeneralProvider,
               private printProvider: PrintProvider) {
+
+    if (!gs.logged_in) navCtrl.setRoot('LoginPage');
+
   }
 
 

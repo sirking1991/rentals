@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
 import { GeneralProvider } from '../../providers/general/general';
 
+import { HomePage } from '../home/home';
+
 import CryptoJS from 'crypto-js';
 
 @IonicPage()
@@ -59,7 +61,7 @@ export class LoginPage {
             this.gs.user = resp['user'];
             this.gs.logged_in = true;
             this.gs.setHttpHeader();
-            this.navCtrl.setRoot('HomePage');
+            this.navCtrl.setRoot(HomePage);
           } else {
             this.gs.alertCtrl.create({
               title:'Login failed',
