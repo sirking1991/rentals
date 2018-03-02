@@ -12,10 +12,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { Device } from '@ionic-native/device';
 import { PrintProvider } from '../providers/print/print';
 import { BluetoothSerial } from '@ionic-native/bluetooth-serial';
+import { HomePage } from '../pages/home/home';
 
 @NgModule({
   declarations: [
     MyApp,
+    HomePage
   ],
   imports: [
     BrowserModule,
@@ -25,6 +27,7 @@ import { BluetoothSerial } from '@ionic-native/bluetooth-serial';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
+    HomePage
   ],
   providers: [
     StatusBar,
