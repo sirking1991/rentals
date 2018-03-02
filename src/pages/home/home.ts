@@ -35,8 +35,9 @@ export class HomePage {
   }
 
   openPage(page) {
-    if (!this.gs.user_has_permission(page,'view',true))  return;
+    if (!this.gs.user_has_permission(page, 'view', true))  return;
 
+    console.log('Opening '+page);
     this.navCtrl.push(page);
   }
 

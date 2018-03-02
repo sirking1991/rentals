@@ -14,6 +14,8 @@ import { PrintProvider } from '../providers/print/print';
 import { BluetoothSerial } from '@ionic-native/bluetooth-serial';
 import { HomePage } from '../pages/home/home';
 
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptor } from './token.interceptor';
 
 @NgModule({
   declarations: [
@@ -38,6 +40,7 @@ import { HomePage } from '../pages/home/home';
     BluetoothSerial,
     Device,
     PrintProvider,
+    {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor,multi: true}
   ]
 })
 export class AppModule {}

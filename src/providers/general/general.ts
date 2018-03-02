@@ -3,13 +3,13 @@ import { AlertController,
          ToastController, 
          ModalController, 
          LoadingController, 
-         Platform, 
-         Button} from 'ionic-angular';
+         Platform} from 'ionic-angular';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import 'rxjs/add/operator/map';
 import { Device } from '@ionic-native/device';
+import { HttpInterceptorHandler } from '@angular/common/http/src/interceptor';
 
 @Injectable()
 export class GeneralProvider {
@@ -27,6 +27,8 @@ export class GeneralProvider {
   network_online = true;
   user_notified = false;
   on_device = false;
+
+  device_info;
   
   http_header;
 
@@ -42,6 +44,8 @@ export class GeneralProvider {
     console.log('Hello GeneralProvider Provider');
     
     this.on_device = this.platform.is('cordova');
+
+    this.device_info = this.device;
 
     if( false==this.on_device ) this.api_url = 'http://rentals-api.localhost/index.php/';
 
