@@ -12,7 +12,7 @@
   </ion-navbar>
 
 </ion-header>
-<ion-content padding>
+<ion-content padding *ngIf="gs.logged_in">
 
     <button class='action-btn' full round ion-button icon-left (click)="openPage('SoaPage')">
       <ion-icon name="stats"></ion-icon>&nbsp;Tenant statement
@@ -32,10 +32,6 @@
 
     <button class='action-btn' full round ion-button icon-left (click)="openPage('PowerMeterReadingsPage')">
       <ion-icon name="calculator"></ion-icon>&nbsp;Power meter reading
-    </button>            
-
-    <button class='action-btn' full round ion-button icon-left (click)="openPage('LesseesPage')">
-      <ion-icon name="contacts"></ion-icon>&nbsp;Lessees
     </button>            
       
     <button class='action-btn' full round ion-button icon-left (click)="openPage('LesseesPage')">

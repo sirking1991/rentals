@@ -16,7 +16,6 @@ export class TokenInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     
     console.log('Http called:'+request.method+' on '+request.urlWithParams);
-
     return next.handle(request);
   }
 }

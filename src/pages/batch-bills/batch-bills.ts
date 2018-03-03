@@ -10,6 +10,9 @@ import { GeneralProvider } from '../../providers/general/general';
 })
 export class BatchBillsPage {
 
+  date_from:string;
+  date_to:string;
+
   _data = [];
   batch_bills = [];
 
@@ -18,6 +21,9 @@ export class BatchBillsPage {
       this.navCtrl.setRoot('LoginPage');
       return;
     }
+    let dt = new Date();
+    this.date_from  = dt.getFullYear() + '-' + ('0'+(dt.getMonth()+1).toString()).substr(-2,2) + '-01';
+    this.date_to    = gs.dateToday();
   }
 
   ionViewWillEnter() {
@@ -27,7 +33,7 @@ export class BatchBillsPage {
   reloadData(){
     let load = this.gs.loadCtrl.create({content:'Loading data...'});
     load.present();
-    this.gs.http.get(this.gs.api_url+'Bills/Batches', {headers: this.gs.http_header})
+    this.gs.http.get(this.gs.api_url+'Bills/Batches/?date_from='+this.date_from+'&date_to='+this.date_to, {headers: this.gs.http_header})
       .subscribe(
         resp=>{
           load.dismiss();
@@ -42,6 +48,29 @@ export class BatchBillsPage {
         }
       );
   }
+
+  dateFilters(){
+    let alert = this.gs.alertCtrl.create({
+      title: 'Date filters',
+      inputs: [
+        {name: 'date_from', placeholder: 'Date from', value: this.date_from, type:'date'},
+        {name: 'date_to', placeholder: 'Date to', value: this.date_to, type:'date'}
+      ],
+      buttons: [
+        {text: 'Cancel', role: 'cancel'},
+        {
+          text: 'Update',
+          handler: data => {  
+            this.date_from = data.date_from;
+            this.date_to = data.date_to;
+            this.reloadData();
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
 
   open(i) {
     this.navCtrl.push("BatchBillDetailsPage",{bill:this.batch_bills[i]});

@@ -4,6 +4,9 @@
       <ion-title>Batch bills <ion-badge item-end>{{batch_bills.length}}</ion-badge></ion-title>
   
       <ion-buttons end>
+          <button ion-button color="primary" (click)="dateFilters()">
+            <ion-icon name="funnel"></ion-icon>&nbsp;Filter
+          </button>
           <button ion-button color="primary" (click)="open(-1)">
             <ion-icon name="add"></ion-icon>&nbsp;New
           </button>

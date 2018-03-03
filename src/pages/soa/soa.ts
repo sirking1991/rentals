@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController} from 'ionic-angular';
 import { GeneralProvider } from '../../providers/general/general';
+import { PrintProvider } from '../../providers/print/print';
+
 
 
 @IonicPage()
@@ -17,7 +19,8 @@ export class SoaPage {
   has_output: boolean = false;
 
   constructor(private navCtrl: NavController,               
-              public gs: GeneralProvider) {
+              public gs: GeneralProvider,
+              public btPrinter: PrintProvider) {
     if(!this.gs.logged_in) {
       this.navCtrl.setRoot('LoginPage');
       return;
@@ -94,6 +97,7 @@ export class SoaPage {
 
   print(){
     // TODO: print to BT printer
+    this.btPrinter.print(this.output);
   }
 
 

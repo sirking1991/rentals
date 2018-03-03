@@ -15,6 +15,7 @@ export class PrinterListModalPage {
               public navParams: NavParams, 
               private viewCtrl:ViewController,
               private gs: GeneralProvider) {
+    this.printerList = this.navParams.get('data');
   }
 
   ionViewDidLoad() {}

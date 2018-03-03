@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
 import { GeneralProvider } from '../../providers/general/general';
 import {PrintProvider} from '../../providers/print/print';
-import {PrinterListModalPage} from '../printer-list-modal/printer-list-modal';
 
 @IonicPage()
 @Component({
@@ -47,9 +46,9 @@ export class HomePage {
     if (!this.gs.user_has_permission("PrinterListPage",'view', true)) return;
 
     this.printProvider.searchBt().then(datalist=>{
-      
+      console.log(JSON.stringify(datalist));
       //1. Open printer select modal
-      let abc=this.gs.modalCtrl.create(PrinterListModalPage,
+      let abc=this.gs.modalCtrl.create("PrinterListModalPage",
                                     {data:datalist},
                                     {enableBackdropDismiss:false});
       
