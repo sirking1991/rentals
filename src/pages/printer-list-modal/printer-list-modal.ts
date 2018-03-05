@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams,ViewController } from 'ionic-angular';
-import { GeneralProvider } from '../../providers/general/general';
 
 @IonicPage()
 @Component({
@@ -13,8 +12,7 @@ export class PrinterListModalPage {
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams, 
-              private viewCtrl:ViewController,
-              private gs: GeneralProvider) {
+              private viewCtrl:ViewController,) {
     this.printerList = this.navParams.get('data');
   }
 
