@@ -8,6 +8,13 @@ class Auth extends CI_Controller {
 		rest_header();		
 		header('Content-Type: application/json');
 	}
+
+
+	register(){
+		$body = json_decode(file_get_contents('php://input'));
+
+		
+	}
 	
 
 	function get_token() {

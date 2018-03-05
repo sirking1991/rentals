@@ -41,10 +41,14 @@ export class LoginPage {
       );
   }
 
+  create_account(){
+    this.navCtrl.push('RegistrationPage');
+  }
+
   login(){
     let load = this.gs.loadCtrl.create({content:'Processing...'});
     load.present();
-    //this.login_btn_label = 'Please wait...';
+    
     let enc_password = CryptoJS.SHA256(this.password+this.token).toString(CryptoJS.enc.Hex);
     let body = {account_code: this.account_code, 
                 user_code:    this.user_code, 

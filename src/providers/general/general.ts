@@ -9,7 +9,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import 'rxjs/add/operator/map';
 import { Device } from '@ionic-native/device';
-import { HttpInterceptorHandler } from '@angular/common/http/src/interceptor';
 
 @Injectable()
 export class GeneralProvider {

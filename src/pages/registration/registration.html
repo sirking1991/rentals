@@ -1,0 +1,45 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Create new account</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding="">
+
+    <ion-list>
+
+        <ion-item>
+          <ion-label floating>First name</ion-label>
+          <ion-input type="text" [(ngModel)]='first_name'></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label floating>Last name</ion-label>
+          <ion-input type="text" [(ngModel)]='last_name'></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label floating>Birth date</ion-label>
+          <ion-datetime displayFormat="YYYY-MM-DD" [(ngModel)]='birth_date'></ion-datetime>
+        </ion-item>        
+
+        <ion-item>
+          <ion-label floating>Phone</ion-label>
+          <ion-input type="phone" [(ngModel)]='phone'></ion-input>
+        </ion-item>        
+
+        <ion-item>
+          <ion-label floating>Email</ion-label>
+          <ion-input type="email" [(ngModel)]='email'></ion-input>
+        </ion-item>
+
+
+      
+      </ion-list>
+    
+      <button ion-button full round (click)="create_account()">Create account</button>
+
+</ion-content>

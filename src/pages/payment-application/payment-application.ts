@@ -80,6 +80,14 @@ export class PaymentApplicationPage {
     let selected_unapplied_bill = this.unpaid_bills[i];
     // calculate how much remaining to apply.
     let unapplied = this.get_unapplied();
+
+    if (0>=unapplied) {
+      this.gs.alertCtrl.create({
+        title: 'This payment has been fully applied', buttons:['OK']
+      }).present();
+      return;
+    }
+
     // decide how much to suggest to apply
     let suggested_apply_amount = selected_unapplied_bill.amount>=unapplied ? unapplied : selected_unapplied_bill.amount;
 
