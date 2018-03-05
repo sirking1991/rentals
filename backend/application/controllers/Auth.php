@@ -10,10 +10,10 @@ class Auth extends CI_Controller {
 	}
 
 
-	register(){
+	function register(){
 		$body = json_decode(file_get_contents('php://input'));
 
-		
+
 	}
 	
 
