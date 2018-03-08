@@ -129,7 +129,7 @@ class Bills extends CI_Controller {
 
 
     private function _unpaid_bills($lessee_uid, $as_of, $exclude_payment_uid){
-        // TODO: Optimis this code
+        // TODO: Optimise this code
         $sql = "SELECT uid, nmbr, date, amount, remarks
                 FROM bills                    
                 WHERE account_code='{$this->auth_info->account_code}' AND lessee_uid=$lessee_uid
@@ -139,7 +139,7 @@ class Bills extends CI_Controller {
         $data = array();
         foreach($bills as $bill) {
             // get applied payment (excluding the payment_passed
-            $payment = $this->db->select_sum('applied_amount')
+            $payment = $this->db->select('ifnull(sum(applied_amount),0) as applied_amount')
                                     ->where(array('bill_uid'=>$bill['uid'], 
                                                 'payment_uid !='=>$exclude_payment_uid,
                                                 'account_code'=>$this->auth_info->account_code))

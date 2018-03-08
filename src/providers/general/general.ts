@@ -154,7 +154,18 @@ export class GeneralProvider {
       }
     }
     return nmbr;
-  } 
+  }
+
+  get_unit_lessee_uid(units, uid): string {
+    let lessee_uid = '';
+    for(let i=0; i<units.length; i++) {
+      if (uid==units[i].uid) {
+        lessee_uid = units[i].lessee_uid;
+        break;
+      }
+    }
+    return lessee_uid;
+  }   
 
   formatMoney(n) {
     return n.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');

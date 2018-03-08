@@ -37,6 +37,10 @@ export class PaymentDetailsPage {
   }
 
   open_payment_application(){
+    // for new payment, lessee_uid is zero, we need to set this to the lessee of selected unit, otherwise there will be no unpaid bills
+    if (0==this.payment.lessee_uid) {
+      this.payment.lessee_uid = this.gs.get_unit_lessee_uid(this.units,this.payment.unit_uid);
+    }
     let modal = this.gs.modalCtrl.create('PaymentApplicationPage', { payment: this.payment });
     modal.onDidDismiss((data)=>{
       this.payment.applications = data;
