@@ -96,15 +96,5 @@ export class SoaPage {
   }
 
 
-  get_lessee_details(uid) {
-    let details: any = null;
-    for(let i=0; i<this.lessees.length; i++){
-      if (uid==this.lessees[i].uid) {
-        details = this.lessees[i];
-        break;        
-      }
-    }
-    return details;
-  }
 
 }
