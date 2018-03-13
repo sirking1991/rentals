@@ -28,17 +28,17 @@ export class PrintProvider {
     
     let ll = left.length;
     let rl = right.length;    
-    let str: string = '';
+    let str: string = left+right;
 
     if ( ll+rl > this.maxPrintChar ) str = left + right;
     
-    let remaining = this.maxPrintChar - ll;
+    // let remaining = this.maxPrintChar - ll;
 
-    if (remaining>rl) {
-      str = left + right.padStart(remaining,' ');
-    } else {
-      str = left + right;
-    }
+    // if (remaining>rl) {
+    //   str = left + right.padStart(remaining,' ');
+    // } else {
+    //   str = left + right;
+    // }
 
     return str;
   }

@@ -130,22 +130,22 @@ export class GeneralProvider {
         if (this.logged_in){
           // Check if we need to pull master files
           let last_pull: Date;
-          let last_update: Date;
+          let last_update: Date;          
           
           last_pull = new Date(window.localStorage.getItem('users_last_pull'));
-          last_update = new Date(data.additional_info.users_last_update);
+          last_update = new Date(data['additional_info'].users_last_update);
           if (last_pull<last_update) this.pull_users();
 
           last_pull = new Date(window.localStorage.getItem('lessees_last_pull'));
-          last_update = new Date(data.additional_info.lessees_last_update);
+          last_update = new Date(data['additional_info'].lessees_last_update);
           if (last_pull<last_update) this.pull_lessees();
 
           last_pull = new Date(window.localStorage.getItem('units_last_pull'));
-          last_update = new Date(data.additional_info.units_last_update);
+          last_update = new Date(data['additional_info'].units_last_update);
           if (last_pull<last_update) this.pull_units();
 
           last_pull = new Date(window.localStorage.getItem('power_meters_last_pull'));
-          last_update = new Date(data.additional_info.power_meters_last_update);
+          last_update = new Date(data['additional_info'].power_meters_last_update);
           if (last_pull<last_update) this.pull_power_meters();
         }
       },
