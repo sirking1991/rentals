@@ -32,7 +32,7 @@
         <ion-label floating>Power meter</ion-label>
         <ion-select [(ngModel)]="unit.power_meter_nmbr">
           <ion-option value=''>[NONE]</ion-option>
-          <ion-option *ngFor='let power_meter of power_meters' value={{power_meter.nmbr}}>
+          <ion-option *ngFor='let power_meter of gs.power_meters' value={{power_meter.nmbr}}>
             {{power_meter.nmbr}}
           </ion-option>
         </ion-select>
@@ -42,8 +42,8 @@
       <ion-label floating>Lessee</ion-label>
       <ion-select [(ngModel)]="unit.lessee_uid">
         <ion-option value='0'>[VACANT]</ion-option>
-        <ion-option *ngFor='let lessee of lessees' value={{lessee.uid}}>
-          {{lessee.last_name+' '+lessee.first_name}}
+        <ion-option *ngFor='let lessee of gs.lessees' value={{lessee.uid}}>
+          {{lessee.last_name+', '+lessee.first_name}}
         </ion-option>
       </ion-select>
     </ion-item>       

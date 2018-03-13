@@ -1,8 +1,8 @@
 <ion-header>
 
     <ion-navbar>
-      <ion-title>Statement of account</ion-title>
-
+      <ion-title>Payment summary</ion-title>
+  
       <ion-buttons end>
         <button *ngIf="!has_output" ion-button color="primary" (click)="generate()">
             <ion-icon name="cog"></ion-icon>&nbsp;Generate
@@ -19,10 +19,15 @@
   <ion-content>
   
       <ion-item *ngIf="!has_output">
-        <ion-label floating>As of</ion-label>
-        <ion-datetime displayFormat="YYYY-MM-DD" [(ngModel)]='as_of'></ion-datetime>
+        <ion-label floating>From</ion-label>
+        <ion-datetime displayFormat="YYYY-MM-DD" [(ngModel)]='date_from'></ion-datetime>
       </ion-item>
   
+      <ion-item *ngIf="!has_output">
+        <ion-label floating>To</ion-label>
+        <ion-datetime displayFormat="YYYY-MM-DD" [(ngModel)]='date_to'></ion-datetime>
+      </ion-item>    
+
       <ion-item *ngIf="!has_output">
         <ion-label floating>Lessee</ion-label>
         <ion-select [(ngModel)]="lessee_uid">
@@ -31,9 +36,19 @@
             {{lessee.last_name+', '+lessee.first_name}}
           </ion-option>
         </ion-select>
+      </ion-item>         
+  
+      <ion-item *ngIf="!has_output">
+        <ion-label floating>User</ion-label>
+        <ion-select [(ngModel)]="user_uid">
+          <ion-option value='0'>[ALL]</ion-option>
+          <ion-option *ngFor='let user of gs.users' value={{user.uid}}>
+            {{user.last_name+', '+user.first_name}}
+          </ion-option>
+        </ion-select>
       </ion-item>    
-
+  
       <textarea *ngIf="has_output" class='output' disabled="disabled" [(ngModel)]="output"></textarea>
-
+  
   </ion-content>
   

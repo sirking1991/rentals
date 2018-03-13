@@ -14,66 +14,107 @@
 </ion-header>
 <ion-content padding *ngIf="gs.logged_in">
 
-    <ion-card color='primary'>
-      <ion-card-header text-left (click)="openPage('SoaPage')">
-        <ion-icon name="stats"></ion-icon>&nbsp;Tenant account statement
-      </ion-card-header>
-    </ion-card>  
+    <ion-grid>
+      <ion-row>
+        <ion-col class="col-12">
+            <button ion-button icon-left full (click)="openPage('SoaPage')">
+              <ion-icon name="stats"></ion-icon>Statement of account
+            </button>
+        </ion-col>
+      </ion-row>
 
-    <ion-card color='primary'>
-      <ion-card-header text-left (click)="openPage('PaymentsPage')">
-          <ion-icon name="cash"></ion-icon>&nbsp;Receive payment
-      </ion-card-header>
-    </ion-card>      
+      <!-- <ion-row>
+        <ion-col class="col-12">
+            <button ion-button icon-left full (click)="openPage('LedgerPage')">
+              <ion-icon name="stats"></ion-icon>Account ledger
+            </button>
+        </ion-col>
+      </ion-row> -->
 
-    <ion-card color='primary'>
-      <ion-card-header text-left (click)="openPage('BillsPage')">
-          <ion-icon name="paper"></ion-icon>&nbsp;Bills
-      </ion-card-header>
-    </ion-card>      
+      <ion-row>
+        <ion-col class="col-6">
+            <button ion-button icon-left full  (click)="openPage('PaymentsPage')">
+              <ion-icon name="cash"></ion-icon>Receive payment
+            </button>
+        </ion-col>
+        <ion-col class="col-6">
+            <button ion-button icon-left full  (click)="openPage('PaymentSummaryPage')">
+              <ion-icon name="stats"></ion-icon>Payment Summary
+            </button>
+        </ion-col>
+      </ion-row>
 
-    <ion-card color='primary'>
-      <ion-card-header text-left (click)="openPage('BatchBillsPage')">
-          <ion-icon name="paper"></ion-icon>&nbsp;Batch billing
-      </ion-card-header>
-    </ion-card>          
-  
-    <ion-card color='primary'>
-      <ion-card-header text-left (click)="openPage('PowerMeterReadingsPage')">
-          <ion-icon name="calculator"></ion-icon>&nbsp;Power meter reading
-      </ion-card-header>
-    </ion-card>          
+      <ion-row>
+        <ion-col class="col-6">
+            <button ion-button icon-left full  (click)="openPage('BillsPage')">
+              <ion-icon name="paper"></ion-icon>Bills
+            </button>
+        </ion-col>
+        <ion-col class="col-6">
+            <button ion-button icon-left full  (click)="openPage('BillSummaryPage')">
+              <ion-icon name="stats"></ion-icon>Bill Summary
+            </button>
+        </ion-col>
+      </ion-row>      
 
-    <ion-card color='primary'>
-      <ion-card-header text-left (click)="openPage('LesseesPage')">
-          <ion-icon name="contacts"></ion-icon>&nbsp;Lessees
-      </ion-card-header>
-    </ion-card>              
-          
-    <ion-card color='primary'>
-      <ion-card-header text-left (click)="openPage('UnitsPage')">
-          <ion-icon name="home"></ion-icon>&nbsp;Units
-      </ion-card-header>
-    </ion-card>              
+      <ion-row>
+        <ion-col class="col-12">
+            <button ion-button icon-left full (click)="openPage('BatchBillsPage')">
+              <ion-icon name="paper"></ion-icon>Batch billing
+            </button>
+        </ion-col>
+      </ion-row>
 
-    <ion-card color='primary'>
-      <ion-card-header text-left (click)="openPage('PowerMetersPage')">
-          <ion-icon name="flash"></ion-icon>&nbsp;Power meters
-      </ion-card-header>
-    </ion-card>              
+      <ion-row>
+        <ion-col class="col-12">
+            <button ion-button icon-left full (click)="openPage('PowerMeterReadingsPage')">
+              <ion-icon name="calculator"></ion-icon>&nbsp;Power meter reading
+            </button>
+        </ion-col>
+      </ion-row>      
 
-      
-    <ion-card color='primary'>
-      <ion-card-header text-left (click)="openPage('UsersPage')">
-          <ion-icon name="people"></ion-icon>&nbsp;Users
-      </ion-card-header>
-    </ion-card>        
-    
-    <ion-card color='primary'>
-      <ion-card-header text-left (click)="selectPrinter()">
-          <ion-icon name="print"></ion-icon>&nbsp;Select printer
-      </ion-card-header>
-    </ion-card>        
+      <ion-row>
+        <ion-col class="col-12">
+            <button ion-button icon-left full (click)="openPage('UnitsPage')">
+                <ion-icon name="cube"></ion-icon>&nbsp;Units
+            </button>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col class="col-12">
+            <button ion-button icon-left full (click)="openPage('LesseesPage')">
+                <ion-icon name="contacts"></ion-icon>&nbsp;Lessees
+            </button>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col class="col-12">
+            <button ion-button icon-left full (click)="openPage('PowerMetersPage')">
+                <ion-icon name="flash"></ion-icon>&nbsp;Power meters
+            </button>
+        </ion-col>
+      </ion-row> 
+
+      <ion-row>
+        <ion-col class="col-12">
+            <button ion-button icon-left full (click)="openPage('UsersPage')">
+                <ion-icon name="people"></ion-icon>&nbsp;Users
+            </button>
+        </ion-col>
+      </ion-row> 
+
+      <ion-row>
+        <ion-col class="col-12">
+            <button ion-button icon-left full (click)="selectPrinter()">
+                <ion-icon name="print"></ion-icon>&nbsp;Select printer
+            </button>
+        </ion-col>
+      </ion-row> 
+
+    </ion-grid>
+     
   
 
 </ion-content>

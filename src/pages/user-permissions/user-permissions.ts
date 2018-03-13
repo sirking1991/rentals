@@ -13,9 +13,12 @@ export class UserPermissionsPage {
   permissions: any = [];
 
   resources = [
-    {id:'SoaPage', name:'Tenant statement', req_perm:[{id:'view',label:'View'}]},
+    {id:'SoaPage', name:'Statement of account', req_perm:[{id:'view',label:'View'}]},
+    {id:'LedgerPage', name:'Account ledger', req_perm:[{id:'view',label:'View'}]},
     {id:'PaymentsPage', name:'Payments', req_perm:[{id:'view',label:'View'},{id:'add',label:'Add'},{id:'edit',label:'Edit'},{id:'delete',label:'Delete'}]},
+    {id:'PaymentSummaryPage', name:'Payment Summary', req_perm:[{id:'view',label:'View'}]},
     {id:'BillsPage', name:'Bills', req_perm:[{id:'view',label:'View'},{id:'add',label:'Add'},{id:'edit',label:'Edit'},{id:'delete',label:'Delete'}]},
+    {id:'BillSummaryPage', name:'Bill Summary', req_perm:[{id:'view',label:'View'}]},
     {id:'BatchBillsPage', name:'Batch billing', req_perm:[{id:'view',label:'View'},{id:'generate',label:'Generate bills'},]},
     {id:'PowerMeterReadingsPage', name:'Power meter reading', req_perm:[{id:'view',label:'View'},{id:'add',label:'Add'},{id:'edit',label:'Edit'},{id:'delete',label:'Delete'}]},
     {id:'LesseesPage', name:'Lessees', req_perm:[{id:'view',label:'View'},{id:'add',label:'Add'},{id:'edit',label:'Edit'},{id:'delete',label:'Delete'}]},

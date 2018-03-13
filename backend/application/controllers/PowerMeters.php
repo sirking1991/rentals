@@ -26,7 +26,12 @@ class PowerMeters extends CI_Controller {
             $this->db->order_by('nmbr');
             $result = $this->db->get_where('power_meters',array('account_code'=>$this->auth_info->account_code))->result_array();
 
-            echo json_encode(array('status'=>'OK', 'data'=>$result));
+            $meta = meta_get($this->auth_info->account_code,'power_meters_last_update');
+            if (null==$meta) $meta['value'] = date('Y-m-d H:i:s');
+            
+            echo json_encode(array('status'=>'OK', 
+                                   'data'=>$result, 
+                                   'last_update'=>$meta['value'] ));
         }
 
         if ('POST'==$_SERVER['REQUEST_METHOD']) {
@@ -40,6 +45,9 @@ class PowerMeters extends CI_Controller {
                 'created_on'    => date('Y-m-d H:i:s')
             ));
             $this->db->insert('power_meters');            
+
+            meta_set($this->auth_info->account_code, 'power_meters_last_update', date('Y-m-d H:i:s'));
+
             echo json_encode(array('status'=>'OK', 'uid'=>$this->db->insert_id()));
             exit;
         }
@@ -54,6 +62,9 @@ class PowerMeters extends CI_Controller {
             ));
             $this->db->where(array('uid'=>$post->uid,'account_code'=>$this->auth_info->account_code));
             $this->db->update('power_meters');
+
+            meta_set($this->auth_info->account_code, 'power_meters_last_update', date('Y-m-d H:i:s'));
+
             if (1==$this->db->affected_rows() ) {
                 echo json_encode(array('status'=>'OK', 'uid'=>$post->uid));
             } else {
@@ -65,6 +76,9 @@ class PowerMeters extends CI_Controller {
         if ('DELETE'==$_SERVER['REQUEST_METHOD']) {
             $this->db->where(array('uid'=>$this->input->get('uid'),'account_code'=>$this->auth_info->account_code));
             $this->db->delete('power_meters');
+
+            meta_set($this->auth_info->account_code, 'power_meters_last_update', date('Y-m-d H:i:s'));
+            
             if (1==$this->db->affected_rows() ) {
                 echo json_encode(array('status'=>'OK', 'uid'=>$this->input->get('uid')));
             } else {

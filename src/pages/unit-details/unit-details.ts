@@ -11,8 +11,6 @@ export class UnitDetailsPage {
 
   unit: any;
   new_record: boolean = false;
-  lessees = [];
-  power_meters = [];
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
@@ -21,9 +19,6 @@ export class UnitDetailsPage {
       this.navCtrl.setRoot('LoginPage');
       return;
     }
-
-    this.lessees = this.navParams.get('lessees');
-    this.power_meters = this.navParams.get('power_meters');
 
     this.unit = this.navParams.get('unit');
     if(undefined==this.unit) {

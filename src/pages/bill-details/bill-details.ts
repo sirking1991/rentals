@@ -11,8 +11,6 @@ export class BillDetailsPage {
 
   bill: any;
   new_record: boolean = false;
-  units = [];
-  lessees = [];
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
@@ -21,9 +19,6 @@ export class BillDetailsPage {
       this.navCtrl.setRoot('LoginPage');
       return;
     }
-
-    this.units = this.navParams.get('units');
-    this.lessees = this.navParams.get('lessees');
     
     this.bill = this.navParams.get('bill');
 

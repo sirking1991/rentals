@@ -10,7 +10,6 @@ import { GeneralProvider } from '../../providers/general/general';
 })
 export class LesseesPage {
 
-  _data = [];
   lessees = [];
 
   constructor(public navCtrl: NavController, private gs: GeneralProvider) {
@@ -21,34 +20,16 @@ export class LesseesPage {
   }
 
   ionViewWillEnter() {
-    this.reloadData();
+    this.lessees = this.gs.lessees;
   }
 
-  reloadData(){
-    let load = this.gs.loadCtrl.create({content:'Loading data...'});
-    load.present();
-    this.gs.http.get(this.gs.api_url+'Lessees', {headers: this.gs.http_header})
-      .subscribe(
-        resp=>{
-          load.dismiss();
-          if ('OK'==resp['status']) {
-            this._data = resp['data'];
-            this.lessees = this._data;
-          }
-        },
-        error=>{
-          load.present();
-          this.gs.presentHttpError(error);
-        }
-      );
-  }
 
   open(i) {
     this.navCtrl.push("LesseeDetailsPage",{lessee:this.lessees[i]});
   }
 
   search(ev: any) {
-    this.lessees = this._data;  // reset
+    this.lessees = this.gs.lessees;  // reset
 
     // set val to the value of the searchbar
     let val = ev.target.value;

@@ -30,6 +30,7 @@ export class HomePage {
     this.gs.token = '';
     this.gs.user = {};
     this.gs.logged_in = false;
+    this.gs.setHttpHeader();
     this.navCtrl.setRoot('LoginPage');
   }
 

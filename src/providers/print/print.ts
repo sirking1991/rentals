@@ -24,8 +24,23 @@ export class PrintProvider {
 
   }
 
-  alignText(align,text) {
+  strAlign(left:string, right:string) {
+    
+    let ll = left.length;
+    let rl = right.length;    
+    let str: string = '';
 
+    if ( ll+rl > this.maxPrintChar ) str = left + right;
+    
+    let remaining = this.maxPrintChar - ll;
+
+    if (remaining>rl) {
+      str = left + right.padStart(remaining,' ');
+    } else {
+      str = left + right;
+    }
+
+    return str;
   }
 
   print(printData)

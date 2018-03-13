@@ -24,7 +24,12 @@ class Units extends CI_Controller {
         if ('GET'==$_SERVER['REQUEST_METHOD']) {
             $result = $this->db->get_where('units',array('account_code'=>$this->auth_info->account_code))->result_array();
 
-            echo json_encode(array('status'=>'OK', 'data'=>$result));
+            $meta = meta_get($this->auth_info->account_code,'units_last_update');
+            if (null==$meta) $meta['value'] = date('Y-m-d H:i:s');
+            
+            echo json_encode(array('status'=>'OK', 
+                                   'data'=>$result, 
+                                   'last_update'=>$meta['value'] ));
         }
 
         if ('POST'==$_SERVER['REQUEST_METHOD']) {
@@ -42,6 +47,9 @@ class Units extends CI_Controller {
                 'created_on'    => date('Y-m-d H:i:s')
             ));
             $this->db->insert('units');
+
+            meta_set($this->auth_info->account_code, 'units_last_update', date('Y-m-d H:i:s'));
+
             echo json_encode(array('status'=>'OK', 'uid'=>$this->db->insert_id()));
             exit;
         }
@@ -60,6 +68,9 @@ class Units extends CI_Controller {
             ));
             $this->db->where(array('uid'=>$post->uid,'account_code'=>$this->auth_info->account_code));
             $this->db->update('units');
+
+            meta_set($this->auth_info->account_code, 'units_last_update', date('Y-m-d H:i:s'));
+
             if (1==$this->db->affected_rows() ) {
                 echo json_encode(array('status'=>'OK', 'uid'=>$post->uid));
             } else {
@@ -74,13 +85,14 @@ class Units extends CI_Controller {
             if (0!=count($unit))  {
                 $this->update_power_meter_lessee($unit['power_nmbr'],0);    // free the power_meter
                 $this->db->where(array('uid'=>$unit_uid))->delete('units');
+
+                meta_set($this->auth_info->account_code, 'units_last_update', date('Y-m-d H:i:s'));
+
                 if (1==$this->db->affected_rows() ) {                
                     echo json_encode(array('status'=>'OK', 'uid'=>$this->input->get('uid')));
                 } else {
                     echo json_encode(array('status'=>'ERROR', 'message'=>'Record not found'));
                 }                
-            } else {
-
             }
             exit;
         }

@@ -150,6 +150,56 @@ class Bills extends CI_Controller {
         return $data;        
     }
 
+
+    function ledger(){
+        $data = array();
+        $lessee_uid     = json_decode($this->input->get('lessee_uid'));
+        $date_from      = $this->input->get('date_from');
+        $date_to        = $this->input->get('date_to');
+
+        // get balance before $date_from
+        $bills = $this->db->select('ifnull(sum(amount),0) as amount')
+                          ->where(array('account_code'=>$this->auth_info->account_code,
+                                        'lessee_uid'=>$lessee_uid,
+                                        'date <'=>$date_from))->get('bills')->row_array();
+        $payments = $this->db->select('ifnull(sum(amount),0) as amount')
+                             ->where(array('account_code'=>$this->auth_info->account_code,
+                                        'lessee_uid'=>$lessee_uid,
+                                        'date <'=>$date_from))->get('payments')->row_array();
+        $balance = $bills['amount'] - $payments['amount'];
+        $data[] = array('type'=>'FWRDBAL', 'nmbr'=>'FWRDBAL', 'date'=>$date_from, 'remarks'=>'Balance before '.$date_from, 'amount'=>$balance);
+
+        // get bills & payment between $date_from & $date_to
+        $bills_payments = $this->db->where(array('account_code'=>$this->auth_info->account_code,
+                                                   'lessee_uid'=>$lessee_uid,
+                                                   'date >='=>$date_from, 'date <='=>$date_to,))
+                                    ->order_by('date, amount desc')
+                                    ->get('bills_payments')->result_array();
+        foreach($bills_payments as $bp) {
+            $data[] = array('type'=>$bp['type'], 'nmbr'=>$bp['nmbr'], 'date'=>$bp['date'], 'remarks'=>$bp['remarks'], 'amount'=>$bp['amount']);
+        }
+        echo json_encode(array('status'=>'OK', 'data'=>$data));        
+    }
+
+
+    public function summary(){
+        $data = array();
+        $user_code      = $this->input->get('user_code');
+        $lessee_uid     = $this->input->get('lessee_uid');
+        $date_from      = $this->input->get('date_from');
+        $date_to        = $this->input->get('date_to');
+        
+        $this->db->where('account_code',$this->auth_info->account_code);
+        
+        if (''!=$user_code) $this->db->where('created_by',$user_code);
+
+        if ('0'!=$lessee_uid) $this->db->where('lessee_uid',$lessee_uid);
+
+        $data = $this->db->get_where('bills', array('date >='=>$date_from, 'date <='=>$date_to))->result_array();
+
+        echo json_encode(array('status'=>'OK', 'data'=>$data));
+    }
+
     
     function Batches(){
         if ('GET'==$_SERVER['REQUEST_METHOD']) {

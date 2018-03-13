@@ -10,59 +10,26 @@ import { GeneralProvider } from '../../providers/general/general';
 })
 export class UnitsPage {
 
-  _data = [];
   units = [];
-  lessees = [];
-  power_meters = [];
 
-  constructor(public navCtrl: NavController, private gs: GeneralProvider) {
+  constructor(public navCtrl: NavController, public gs: GeneralProvider) {
     if(!this.gs.logged_in) {
       this.navCtrl.setRoot('LoginPage');
       return;
     }
-    // get lessees
-    this.gs.http.get(this.gs.api_url+'Lessees', {headers: this.gs.http_header})
-    .subscribe(
-      resp=>{ if ('OK'==resp['status']) {this.lessees = resp['data'];} },
-      error=>{this.gs.presentHttpError(error);}
-    );
-    // get power meters
-    this.gs.http.get(this.gs.api_url+'PowerMeters', {headers: this.gs.http_header})
-    .subscribe(
-      resp=>{ if ('OK'==resp['status']) {this.power_meters = resp['data'];} },
-      error=>{this.gs.presentHttpError(error);}
-    );    
   }
 
   ionViewWillEnter() {
-    this.reloadData();
+    this.units = this.gs.units
   }
 
-  reloadData(){
-    let load = this.gs.loadCtrl.create({content:'Loading data...'});
-    load.present();
-    this.gs.http.get(this.gs.api_url+'Units', {headers: this.gs.http_header})
-      .subscribe(
-        resp=>{
-          load.dismiss();
-          if ('OK'==resp['status']) {
-            this._data = resp['data'];
-            this.units = this._data;
-          }
-        },
-        error=>{
-          load.dismiss();
-          this.gs.presentHttpError(error);
-        }
-      );
-  }
 
   open(i) {
-    this.navCtrl.push("UnitDetailsPage",{unit:this.units[i], lessees: this.lessees, power_meters: this.power_meters});
+    this.navCtrl.push("UnitDetailsPage",{unit:this.units[i]});
   }
 
   search(ev: any) {
-    this.units = this._data;  // reset
+    this.units = this.gs.units;  // reset
 
     // set val to the value of the searchbar
     let val = ev.target.value;
@@ -75,15 +42,5 @@ export class UnitsPage {
     }
   }
 
-  get_lessee_name(uid): string {
-    let name = '';
-    for(let i=0; i<this.lessees.length; i++) {
-      if (uid==this.lessees[i].uid) {
-        name = this.lessees[i].last_name+' '+this.lessees[i].first_name;
-        break;
-      }
-    }
-    return name;
-  }
  
 }

@@ -65,6 +65,14 @@ export class LoginPage {
             this.gs.user = resp['user'];
             this.gs.logged_in = true;
             this.gs.setHttpHeader();
+            
+            // pull master files
+            this.gs.pull_users();
+            this.gs.pull_lessees();
+            this.gs.pull_units();
+            this.gs.pull_power_meters();
+
+            // set home as our root page
             this.navCtrl.setRoot(HomePage);
           } else {
             this.gs.alertCtrl.create({

@@ -25,7 +25,12 @@ class Lessees extends CI_Controller {
             $this->db->order_by('last_name, first_name');
             $result = $this->db->get_where('lessees',array('account_code'=>$this->auth_info->account_code))->result_array();
 
-            echo json_encode(array('status'=>'OK', 'data'=>$result));
+            $meta = meta_get($this->auth_info->account_code,'lessees_last_update');
+            if (null==$meta) $meta['value'] = date('Y-m-d H:i:s');
+            
+            echo json_encode(array('status'=>'OK', 
+                                   'data'=>$result, 
+                                   'last_update'=>$meta['value'] ));
         }
 
         if ('POST'==$_SERVER['REQUEST_METHOD']) {
@@ -42,6 +47,9 @@ class Lessees extends CI_Controller {
                 'created_on'    => date('Y-m-d H:i:s')
             ));
             $this->db->insert('lessees');            
+
+            meta_set($this->auth_info->account_code, 'lessees_last_update', date('Y-m-d H:i:s'));
+
             echo json_encode(array('status'=>'OK', 'uid'=>$this->db->insert_id()));
             exit;
         }
@@ -60,6 +68,9 @@ class Lessees extends CI_Controller {
             ));
             $this->db->where(array('uid'=>$post->uid,'account_code'=>$this->auth_info->account_code));
             $this->db->update('lessees');
+
+            meta_set($this->auth_info->account_code, 'lessees_last_update', date('Y-m-d H:i:s'));
+
             if (1==$this->db->affected_rows() ) {
                 echo json_encode(array('status'=>'OK', 'uid'=>$post->uid));
             } else {
@@ -71,6 +82,9 @@ class Lessees extends CI_Controller {
         if ('DELETE'==$_SERVER['REQUEST_METHOD']) {
             $this->db->where(array('uid'=>$this->input->get('uid'),'account_code'=>$this->auth_info->account_code));
             $this->db->delete('lessees');
+
+            meta_set($this->auth_info->account_code, 'lessees_last_update', date('Y-m-d H:i:s'));
+
             if (1==$this->db->affected_rows() ) {
                 echo json_encode(array('status'=>'OK', 'uid'=>$this->input->get('uid')));
             } else {

@@ -32,8 +32,8 @@
           <ion-label floating>Unit</ion-label>
           <ion-select [(ngModel)]="bill.unit_uid">
             <ion-option value='0'>[SELECT UNIT]</ion-option>
-            <ion-option *ngFor='let unit of units' value={{unit.uid}}>
-              {{unit.nmbr}} - {{gs.get_lessee_name(lessees, unit.lessee_uid)}}
+            <ion-option *ngFor='let unit of gs.units' value={{unit.uid}}>
+              {{unit.nmbr}} - {{gs.get_lessee(unit.lessee_uid).name}}
             </ion-option>
           </ion-select>
         </ion-item>  

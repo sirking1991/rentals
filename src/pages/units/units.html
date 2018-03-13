@@ -25,7 +25,7 @@
       </div>
     </ion-card-header>
     <ion-card-content>
-      <span float-left *ngIf="0!=unit.lessee_uid">Lessee: {{get_lessee_name(unit.lessee_uid)}}</span>
+      <span float-left *ngIf="0!=unit.lessee_uid">Lessee: {{gs.get_lessee(unit.lessee_uid).name}}</span>
       <span float-right *ngIf="0!=unit.lessee_uid">Monthly lease: {{unit.monthly_lease|number:'1.2-2'}}</span>
     </ion-card-content>
   </ion-card>

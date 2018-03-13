@@ -18,7 +18,7 @@
 
   <ion-card *ngFor="let lessee of lessees; let i = index" (click)="open(i)">
     <ion-card-header>
-      {{lessee.last_name+' '+lessee.first_name}}
+      {{lessee.last_name+', '+lessee.first_name}}
     </ion-card-header>
   </ion-card>
 

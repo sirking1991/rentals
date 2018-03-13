@@ -31,6 +31,11 @@ export class GeneralProvider {
   
   http_header;
 
+  users   = [];
+  lessees = [];
+  units   = [];
+  power_meters  = [];
+
   public selectedPrinter:any=[];
 
   constructor(public http: HttpClient,
@@ -56,9 +61,64 @@ export class GeneralProvider {
     
   }
 
+  pull_users(){
+    this.http.get(this.api_url+'Users', {headers: this.http_header})
+    .subscribe(
+      resp=>{
+        if ('OK'==resp['status']) {
+          this.users = resp['data'];
+          window.localStorage.setItem('users_last_pull', resp['last_update']);
+        }
+      },
+      error=>{ this.presentHttpError(error); }
+    );    
+  }
+
+
+  pull_lessees(){
+    this.http.get(this.api_url+'Lessees', {headers: this.http_header})
+    .subscribe(
+      resp=>{
+        if ('OK'==resp['status']) {
+          this.lessees = resp['data'];
+          window.localStorage.setItem('lessees_last_pull', resp['last_update']);
+        }
+      },
+      error=>{ this.presentHttpError(error); }
+    );        
+  }
+
+
+  pull_units(){
+    this.http.get(this.api_url+'Units', {headers: this.http_header})
+    .subscribe(
+      resp=>{
+        if ('OK'==resp['status']) {
+          this.units = resp['data'];
+          window.localStorage.setItem('units_last_pull', resp['last_update']);
+        }
+      },
+      error=>{ this.presentHttpError(error); }
+    );        
+  }
+
+
+  pull_power_meters(){
+    this.http.get(this.api_url+'PowerMeters', {headers: this.http_header})
+    .subscribe(
+      resp=>{
+        if ('OK'==resp['status']) {
+          this.power_meters = resp['data'];
+          window.localStorage.setItem('power_meters_last_pull', resp['last_update']);
+        }
+      },
+      error=>{ this.presentHttpError(error); }
+    );        
+  }
 
   ping(){
-    this.http.get(this.api_url+'Auth/ping')
+
+    this.http.get(this.api_url+'Auth/ping', {headers: this.http_header})
     .subscribe(
       data => {
         if(!this.network_online) {
@@ -66,6 +126,28 @@ export class GeneralProvider {
           this.toastCtrl.create({message:'Network connection established', duration:3000}).present()
         }
         this.network_online = true;
+
+        if (this.logged_in){
+          // Check if we need to pull master files
+          let last_pull: Date;
+          let last_update: Date;
+          
+          last_pull = new Date(window.localStorage.getItem('users_last_pull'));
+          last_update = new Date(data.additional_info.users_last_update);
+          if (last_pull<last_update) this.pull_users();
+
+          last_pull = new Date(window.localStorage.getItem('lessees_last_pull'));
+          last_update = new Date(data.additional_info.lessees_last_update);
+          if (last_pull<last_update) this.pull_lessees();
+
+          last_pull = new Date(window.localStorage.getItem('units_last_pull'));
+          last_update = new Date(data.additional_info.units_last_update);
+          if (last_pull<last_update) this.pull_units();
+
+          last_pull = new Date(window.localStorage.getItem('power_meters_last_pull'));
+          last_update = new Date(data.additional_info.power_meters_last_update);
+          if (last_pull<last_update) this.pull_power_meters();
+        }
       },
       error => {        
         if(!this.user_notified) {
@@ -113,10 +195,15 @@ export class GeneralProvider {
 
   // Set httpHeader so that it includes the validated user
   setHttpHeader(){
-    this.http_header = new HttpHeaders({
+    if (this.logged_in) {
+      this.http_header = new HttpHeaders({
         'Content-Type':  'application/json',
         'auth_info': JSON.stringify({account_code:this.account_code, user_code:this.user.code, token: this.token})
-    });
+      });      
+    } else {
+      this.http_header = new HttpHeaders();
+    }
+
   }
 
   dateToday(){
@@ -134,40 +221,45 @@ export class GeneralProvider {
                   d.getHours() + ':' + d.getMinutes() + ':' +d.getSeconds() ;
   }  
 
-  get_lessee_name(lessees, uid): string {
-    let name = '';
-    for(let i=0; i<lessees.length; i++) {
-      if (uid==lessees[i].uid) {
-        name = lessees[i].last_name+' '+lessees[i].first_name;
+  get_lessee(uid): any {
+    let lessee: any = null;
+    for(let i=0; i<this.lessees.length; i++) {
+      if (uid==this.lessees[i].uid) {
+        lessee = this.lessees[i];
+        lessee.name = lessee.last_name+', '+lessee.first_name;
         break;
       }
     }
-    return name;
+    return lessee;
   }
 
-  get_unit_nmbr(units, uid): string {
-    let nmbr = '';
-    for(let i=0; i<units.length; i++) {
-      if (uid==units[i].uid) {
-        nmbr = units[i].nmbr;
+  get_unit(uid): any {
+    let unit: any = null;
+    for(let i=0; i<this.units.length; i++) {
+      if (uid==this.units[i].uid) {
+        unit = this.units[i];
         break;
       }
     }
-    return nmbr;
+    return unit;
   }
 
-  get_unit_lessee_uid(units, uid): string {
-    let lessee_uid = '';
-    for(let i=0; i<units.length; i++) {
-      if (uid==units[i].uid) {
-        lessee_uid = units[i].lessee_uid;
+
+  get_user(uid): any {
+    let user: any = null;
+    for(let i=0; i<this.users.length; i++) {
+      if (uid==this.users[i].uid) {
+        user = this.users[i];
+        user.name = user.last_name+', '+user.first_name;
         break;
       }
     }
-    return lessee_uid;
-  }   
+    return user;
+  }  
+
 
   formatMoney(n) {
+    n = parseFloat(n);
     return n.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
   }
 

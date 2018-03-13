@@ -20,6 +20,7 @@ export class PrinterListModalPage {
 
   select(data)
   {
+    window.localStorage.setItem('selected_printer',JSON.stringify(data));
     this.viewCtrl.dismiss(data);
   }
 

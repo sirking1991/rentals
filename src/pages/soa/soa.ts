@@ -14,7 +14,6 @@ export class SoaPage {
 
   as_of;
   lessee_uid: number = 0;
-  lessees = []
   output: string = '';
   has_output: boolean = false;
 
@@ -27,12 +26,7 @@ export class SoaPage {
     }
 
     this.as_of = gs.dateToday();
-    // get lessees
-    this.gs.http.get(this.gs.api_url+'Lessees', {headers: this.gs.http_header})
-    .subscribe(
-      resp=>{ if ('OK'==resp['status']) {this.lessees = resp['data'];} },
-      error=>{this.gs.presentHttpError(error);}
-    );    
+
   }
 
   ionViewDidLoad() {
@@ -46,7 +40,7 @@ export class SoaPage {
     load.present();
     if (0==this.lessee_uid) {
         // for all lessee request
-        this.lessees.forEach(lessee=>{req_lessees.push(lessee.uid)});
+        this.gs.lessees.forEach(lessee=>{req_lessees.push(lessee.uid)});
     } else {
       // for single lessee request
       req_lessees.push(this.lessee_uid);
@@ -70,10 +64,11 @@ export class SoaPage {
 
 
   format_soa(data){    
-    let lessee = this.get_lessee_details(data.lessee_uid);
+    let lessee = this.gs.get_lessee(data.lessee_uid);
+    if (null==lessee) lessee = {name:'LESSEE NOT FOUND:'+this.lessee_uid};
     let content = 'STATEMENT OF ACCOUNT' + '\n';
     content += this.gs.dateTimeNow() + '\n';
-    content += lessee.last_name+' '+lessee.first_name + '\n';
+    content += lessee.name + '\n';
     content += '\n';
     let total = 0;
     if (0<data.soa.length) {

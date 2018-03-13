@@ -20,7 +20,7 @@ class Payments extends CI_Controller {
 
     }
 
-    function index(){
+    public function index(){
         if ('GET'==$_SERVER['REQUEST_METHOD']) {
             $date_from = $this->input->get('date_from');
             if (null==$date_from) $date_from = date('Y-m-1');
@@ -122,7 +122,7 @@ class Payments extends CI_Controller {
         }        
     }
 
-    function payment_application(){
+    public function payment_application(){
         if ('GET'==$_SERVER['REQUEST_METHOD']) {
             $uid = $this->input->get('uid');
 
@@ -133,6 +133,24 @@ class Payments extends CI_Controller {
 
             echo json_encode(array('status'=>'OK', 'data'=>$row));
         }        
+    }
+
+    public function summary(){
+        $data = array();
+        $user_code      = $this->input->get('user_code');
+        $lessee_uid     = $this->input->get('lessee_uid');
+        $date_from      = $this->input->get('date_from');
+        $date_to        = $this->input->get('date_to');
+        
+        $this->db->where('account_code',$this->auth_info->account_code);
+        
+        if (''!=$user_code) $this->db->where('created_by',$user_code);
+
+        if ('0'!=$lessee_uid) $this->db->where('lessee_uid',$lessee_uid);
+
+        $data = $this->db->get_where('payments', array('date >='=>$date_from, 'date <='=>$date_to))->result_array();
+
+        echo json_encode(array('status'=>'OK', 'data'=>$data));
     }
  
 

@@ -28,8 +28,10 @@
       <ion-item>
         <ion-label floating>Type</ion-label>
         <ion-select [(ngModel)]='batch_bill.type'>
-          <ion-option value='POWER'>POWER</ion-option>
-          <ion-option value='RENT'>RENT</ion-option>
+          <ion-option value='POWER'>Power</ion-option>
+          <ion-option value='RENT'>Monthly Rent</ion-option>
+          <ion-option value='FIXED'>Fixed amount</ion-option>
+          <ion-option value='AREABASED'>Based on unit area</ion-option>
         </ion-select>
       </ion-item>
       
@@ -44,6 +46,17 @@
           <ion-label floating>Rate per KWH</ion-label>
           <ion-input type='number'[(ngModel)]='batch_bill.rate'></ion-input>
       </ion-item>
+
+      <ion-item *ngIf="'FIXED'==batch_bill.type">
+        <ion-label floating>Amount</ion-label>
+        <ion-input type='number'[(ngModel)]='batch_bill.rate'></ion-input>
+      </ion-item>      
+
+      <ion-item *ngIf="'AREABASED'==batch_bill.type">
+        <ion-label floating>Rate per Sqm.</ion-label>
+        <ion-input type='number'[(ngModel)]='batch_bill.rate'></ion-input>
+      </ion-item>      
+
 
       <ion-item>
         <ion-label floating>Remarks</ion-label>

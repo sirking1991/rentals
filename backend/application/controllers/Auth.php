@@ -12,8 +12,6 @@ class Auth extends CI_Controller {
 
 	function register(){
 		$body = json_decode(file_get_contents('php://input'));
-
-
 	}
 	
 
@@ -90,7 +88,42 @@ class Auth extends CI_Controller {
 
 
 	function ping(){
-		echo json_encode(array('status'=>'OK','datetime'=>date('Y-m-d H:i:s')));
+		$ret = array('status'=>'OK', 'datetime'=>date('Y-m-d H:i:s'));
+		$http_headers   = getallheaders();
+		$auth_info		= (object)array('account_code'=>'','user_code'=>'','token'=>'');
+		if (isset($http_headers['auth_info'])) $auth_info      = json_decode($http_headers['auth_info']);
+		
+		$additional_info = array();
+        if( is_credential_valid($auth_info->account_code, $auth_info->user_code, $auth_info->token) ) {
+			// get master files last_updated date
+			$meta = meta_get($auth_info->account_code,'users_last_update');
+			if (null!=$meta)
+				$additional_info['users_last_update'] = $meta['value'];
+			else
+				$additional_info['users_last_update'] = date('1976-04-26 H:i:s');		
+
+			$meta = meta_get($auth_info->account_code,'lessees_last_update');
+			if (null!=$meta)
+				$additional_info['lessees_last_update'] = $meta['value'];
+			else
+				$additional_info['lessees_last_update'] = date('1976-04-26 H:i:s');
+			
+			$meta = meta_get($auth_info->account_code,'units_last_update');
+			if (null!=$meta)
+				$additional_info['units_last_update'] = $meta['value'];
+			else
+				$additional_info['units_last_update'] = date('1976-04-26 H:i:s');
+			
+			$meta = meta_get($auth_info->account_code,'power_meters_last_update');
+			if (null!=$meta)
+				$additional_info['power_meters_last_update'] = $meta['value'];
+			else
+				$additional_info['power_meters_last_update'] = date('1976-04-26 H:i:s');
+					
+			$ret['additional_info'] = $additional_info;
+		}        
+		
+		echo json_encode($ret);
 	}
 
 

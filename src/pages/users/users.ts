@@ -10,37 +10,17 @@ import { GeneralProvider } from '../../providers/general/general';
 })
 export class UsersPage {
 
-  _data = [];
   users = [];
 
   constructor(public navCtrl: NavController, private gs: GeneralProvider) {
-    if(!this.gs.logged_in) {
+    if (!this.gs.logged_in) {
       this.navCtrl.setRoot('LoginPage');
       return;
     }
   }
 
   ionViewWillEnter() {
-    this.reloadData();
-  }
-
-  reloadData(){
-    let load = this.gs.loadCtrl.create({content:'Loading data...'});
-    load.present();
-    this.gs.http.get(this.gs.api_url+'Users', {headers: this.gs.http_header})
-      .subscribe(
-        resp=>{
-          load.dismiss();
-          if ('OK'==resp['status']) {
-            this._data = resp['data'];
-            this.users = this._data;
-          }
-        },
-        error=>{
-          load.dismiss();
-          this.gs.presentHttpError(error);
-        }
-      );
+    this.users = this.gs.users;
   }
 
   open(i) {
@@ -48,7 +28,7 @@ export class UsersPage {
   }
 
   search(ev: any) {
-    this.users = this._data;  // reset
+    this.users = this.gs.users;  // reset
 
     // set val to the value of the searchbar
     let val = ev.target.value;

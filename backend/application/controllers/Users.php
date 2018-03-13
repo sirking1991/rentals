@@ -24,7 +24,12 @@ class Users extends CI_Controller {
         if ('GET'==$_SERVER['REQUEST_METHOD']) {
             $result = $this->db->get_where('users',array('account_code'=>$this->auth_info->account_code))->result_array();
 
-            echo json_encode(array('status'=>'OK', 'data'=>$result));
+            $meta = meta_get($this->auth_info->account_code,'users_last_update');
+            if (null==$meta) $meta['value'] = date('Y-m-d H:i:s');
+            
+            echo json_encode(array('status'=>'OK', 
+                                   'data'=>$result, 
+                                   'last_update'=>$meta['value'] ));
         }
 
         if ('POST'==$_SERVER['REQUEST_METHOD']) {
@@ -40,6 +45,9 @@ class Users extends CI_Controller {
                 'created_on'    => date('Y-m-d H:i:s')
             ));
             $this->db->insert('users');            
+
+            meta_set($this->auth_info->account_code, 'users_last_update', date('Y-m-d H:i:s'));
+
             echo json_encode(array('status'=>'OK', 'uid'=>$this->db->insert_id()));
             exit;
         }
@@ -57,6 +65,9 @@ class Users extends CI_Controller {
             ));
             $this->db->where(array('uid'=>$post->uid,'account_code'=>$this->auth_info->account_code));
             $this->db->update('users');
+
+            meta_set($this->auth_info->account_code, 'users_last_update', date('Y-m-d H:i:s'));
+
             if (1==$this->db->affected_rows() ) {
                 echo json_encode(array('status'=>'OK', 'uid'=>$post->uid));
             } else {
@@ -68,6 +79,9 @@ class Users extends CI_Controller {
         if ('DELETE'==$_SERVER['REQUEST_METHOD']) {
             $this->db->where(array('uid'=>$this->input->get('uid'),'account_code'=>$this->auth_info->account_code));
             $this->db->delete('users');
+
+            meta_set($this->auth_info->account_code, 'users_last_update', date('Y-m-d H:i:s'));
+
             if (1==$this->db->affected_rows() ) {
                 echo json_encode(array('status'=>'OK', 'uid'=>$this->input->get('uid')));
             } else {

@@ -12,7 +12,6 @@ export class BatchBillDetailsPage {
   batch_bill: any;
   new_record: boolean = false;
   power_meter_readings = [];
-  units = [];
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
@@ -28,12 +27,6 @@ export class BatchBillDetailsPage {
       resp=>{ if ('OK'==resp['status']) {this.power_meter_readings = resp['data'];} },
       error=>{this.gs.presentHttpError(error);}
     );
-    // get units
-    this.gs.http.get(this.gs.api_url+'Units', {headers: this.gs.http_header})
-    .subscribe(
-      resp=>{ if ('OK'==resp['status']) {this.units = resp['data'];} },
-      error=>{this.gs.presentHttpError(error);}
-    );     
     this.batch_bill = this.navParams.get('bill');
 
     if(undefined==this.batch_bill) {
@@ -53,7 +46,7 @@ export class BatchBillDetailsPage {
     if ('RENT'==this.batch_bill.type) {
       let prefix = this.batch_bill.type + '-' + dt.getFullYear() + '.' + (dt.getMonth()+1) + '.' + dt.getDate();
       let ctr = 1;
-      this.units.forEach((unit)=>{
+      this.gs.units.forEach((unit)=>{
         if (''!=unit.tenant_uid) {
           this.batch_bill.details.push({
             nmbr:       prefix+'-'+ctr,
@@ -95,6 +88,42 @@ export class BatchBillDetailsPage {
       });
 
     }
+
+    if ('FIXED'==this.batch_bill.type) {
+      let prefix = this.batch_bill.type + '-' + dt.getFullYear() + '.' + (dt.getMonth()+1) + '.' + dt.getDate();
+      let ctr = 1;
+      this.gs.units.forEach((unit)=>{
+        if (''!=unit.tenant_uid) {
+          this.batch_bill.details.push({
+            nmbr:       prefix+'-'+ctr,
+            date:       this.batch_bill.date,
+            unit_uid:   unit.uid,
+            lessee_uid: unit.lessee_uid,
+            remarks:    this.batch_bill.remarks,
+            amount:     this.gs.roundMoney(this.batch_bill.rate)
+          });
+          ctr++;
+        }
+      });
+    }
+
+    if ('AREABASED'==this.batch_bill.type) {
+      let prefix = this.batch_bill.type + '-' + dt.getFullYear() + '.' + (dt.getMonth()+1) + '.' + dt.getDate();
+      let ctr = 1;
+      this.gs.units.forEach((unit)=>{
+        if (''!=unit.tenant_uid) {
+          this.batch_bill.details.push({
+            nmbr:       prefix+'-'+ctr,
+            date:       this.batch_bill.date,
+            unit_uid:   unit.uid,
+            lessee_uid: unit.lessee_uid,
+            remarks:    this.batch_bill.remarks + ' (' +unit.area+'Sqm x '+this.batch_bill.rate+')',
+            amount:     this.gs.roundMoney(unit.area * this.batch_bill.rate)
+          });
+          ctr++;
+        }
+      });
+    }    
 
   }  
 

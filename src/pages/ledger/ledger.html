@@ -1,0 +1,43 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Account ledger</ion-title>
+
+    <ion-buttons end>
+      <button *ngIf="!has_output" ion-button color="primary" (click)="generate()">
+          <ion-icon name="cog"></ion-icon>&nbsp;Generate
+      </button>
+      <button *ngIf="has_output" ion-button color="primary" (click)="print()">
+          <ion-icon name="print"></ion-icon>&nbsp;Print
+      </button>
+    </ion-buttons>      
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+
+    <ion-item *ngIf="!has_output">
+      <ion-label floating>From</ion-label>
+      <ion-datetime displayFormat="YYYY-MM-DD" [(ngModel)]='date_from'></ion-datetime>
+    </ion-item>
+
+    <ion-item *ngIf="!has_output">
+      <ion-label floating>To</ion-label>
+      <ion-datetime displayFormat="YYYY-MM-DD" [(ngModel)]='date_to'></ion-datetime>
+    </ion-item>    
+
+    <ion-item *ngIf="!has_output">
+      <ion-label floating>Lessee</ion-label>
+      <ion-select [(ngModel)]="lessee_uid">
+        <ion-option value='0'>[SELECT LESSEE]</ion-option>
+        <ion-option *ngFor='let lessee of gs.lessees' value={{lessee.uid}}>
+          {{lessee.last_name+', '+lessee.first_name}}
+        </ion-option>
+      </ion-select>
+    </ion-item>    
+
+    <textarea *ngIf="has_output" class='output' disabled="disabled" [(ngModel)]="output"></textarea>
+
+</ion-content>

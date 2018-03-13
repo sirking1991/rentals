@@ -10,7 +10,6 @@ import { GeneralProvider } from '../../providers/general/general';
 })
 export class PowerMetersPage {
 
-  _data = [];
   power_meters = [];
 
   constructor(public navCtrl: NavController, private gs: GeneralProvider) {
@@ -20,35 +19,18 @@ export class PowerMetersPage {
     }
   }
 
+
   ionViewWillEnter() {
-    this.reloadData();
+    this.power_meters = this.gs.power_meters;
   }
 
-  reloadData(){
-    let load = this.gs.loadCtrl.create({content:'Loading data...'});
-    load.present();
-    this.gs.http.get(this.gs.api_url+'PowerMeters', {headers: this.gs.http_header})
-      .subscribe(
-        resp=>{
-          load.dismiss();
-          if ('OK'==resp['status']) {
-            this._data = resp['data'];
-            this.power_meters = this._data;
-          }
-        },
-        error=>{
-          load.dismiss();
-          this.gs.presentHttpError(error);
-        }
-      );
-  }
 
   open(i) {
     this.navCtrl.push("PowerMeterDetailsPage",{power_meter:this.power_meters[i]});
   }
 
   search(ev: any) {
-    this.power_meters = this._data;  // reset
+    this.power_meters = this.gs.power_meters;  // reset
 
     // set val to the value of the searchbar
     let val = ev.target.value;

@@ -15,8 +15,6 @@ export class BillsPage {
 
   _data = [];
   bills = [];
-  units = [];
-  lessees = []
 
   constructor(public navCtrl: NavController, public gs: GeneralProvider) {
     if(!this.gs.logged_in) {
@@ -27,18 +25,6 @@ export class BillsPage {
     this.date_from  = dt.getFullYear() + '-' + ('0'+(dt.getMonth()+1).toString()).substr(-2,2) + '-01';
     this.date_to    = gs.dateToday();
 
-    // get lessees
-    this.gs.http.get(this.gs.api_url+'Lessees', {headers: this.gs.http_header})
-    .subscribe(
-      resp=>{ if ('OK'==resp['status']) {this.lessees = resp['data'];} },
-      error=>{this.gs.presentHttpError(error);}
-    );
-    // get units
-    this.gs.http.get(this.gs.api_url+'Units', {headers: this.gs.http_header})
-    .subscribe(
-      resp=>{ if ('OK'==resp['status']) {this.units = resp['data'];} },
-      error=>{this.gs.presentHttpError(error);}
-    );    
   }
 
   ionViewWillEnter() {
@@ -87,7 +73,7 @@ export class BillsPage {
   }
 
   open(i) {
-    this.navCtrl.push("BillDetailsPage",{bill:this.bills[i], lessees:this.lessees, units:this.units});
+    this.navCtrl.push("BillDetailsPage",{bill:this.bills[i]});
   }
 
   search(ev: any) {
