@@ -3,4 +3,12 @@ page-home {
     button {
         text-transform: none !important;
     }
+
+    img.logo {
+        width: 50%;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 20px;
+    }
 }

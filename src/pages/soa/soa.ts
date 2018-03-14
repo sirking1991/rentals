@@ -15,6 +15,7 @@ export class SoaPage {
   as_of;
   lessee_uid: number = 0;
   output: string = '';
+  balance_filter: string = 'ALL';
   has_output: boolean = false;
 
   constructor(private navCtrl: NavController,               
@@ -86,7 +87,11 @@ export class SoaPage {
     content += '\nTotal Due:'+this.gs.formatMoney(total);
     content += '\n\n\n-\n\n\n';
 
-    return content;
+    let ret = content;
+    if ('WTIHBAL'==this.balance_filter && 0==total) ret = '';
+    if ('WITHNOBAL'==this.balance_filter && 0!=total) ret = '';
+
+    return ret;
   }
 
 

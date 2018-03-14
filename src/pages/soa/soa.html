@@ -33,6 +33,15 @@
         </ion-select>
       </ion-item>    
 
+      <ion-item *ngIf="!has_output && '0'==lessee_uid ">
+        <ion-label floating></ion-label>
+        <ion-select [(ngModel)]="balance_filter">
+          <ion-option value='ALL'>All lessee regardless of balance</ion-option>
+          <ion-option value='WTIHBAL'>Lessee with balances only</ion-option>
+          <ion-option value='WITHNOBAL'>Lessee with zero balance only</ion-option>
+        </ion-select>
+      </ion-item>
+
       <textarea *ngIf="has_output" class='output' disabled="disabled" [(ngModel)]="output"></textarea>
 
   </ion-content>
