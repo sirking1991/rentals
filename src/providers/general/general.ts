@@ -222,7 +222,7 @@ export class GeneralProvider {
   }  
 
   get_lessee(uid): any {
-    let lessee: any = null;
+    let lessee: any = {name:'Lessee not found:'+uid};
     for(let i=0; i<this.lessees.length; i++) {
       if (uid==this.lessees[i].uid) {
         lessee = this.lessees[i];
