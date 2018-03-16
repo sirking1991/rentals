@@ -69,7 +69,7 @@ export class MyErrorHandler implements ErrorHandler {
     Device,
     PrintProvider,
     {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor,multi: true},
-    IonicErrorHandler,[{ provide: ErrorHandler, useClass: MyErrorHandler }]
+    IonicErrorHandler,[{ provide: ErrorHandler, useClass: MyErrorHandler }],
   ]
 })
 export class AppModule {}

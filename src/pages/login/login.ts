@@ -13,15 +13,18 @@ import CryptoJS from 'crypto-js';
 })
 export class LoginPage {
 
-  account_code  = 'albert.porras';
-  user_code     = 'sherwin.d';
-  password      = 'qwerty';
+  account_code  = '';
+  user_code     = '';
+  password      = '';
   token         = '';
 
   login_btn_label = 'Login';
 
   constructor(public navCtrl: NavController, 
               private gs: GeneralProvider) {
+    
+    this.account_code = window.localStorage.getItem('account_code');
+    this.user_code = window.localStorage.getItem('user_code')
   }
 
   ionViewDidLoad() {
@@ -71,6 +74,10 @@ export class LoginPage {
             this.gs.pull_lessees();
             this.gs.pull_units();
             this.gs.pull_power_meters();
+
+            // save the accout_code & user_code oo localStorage so we can use it again when user logins
+            window.localStorage.setItem('account_code', this.account_code);
+            window.localStorage.setItem('user_code',this.user_code);
 
             // set home as our root page
             this.navCtrl.setRoot(HomePage);
