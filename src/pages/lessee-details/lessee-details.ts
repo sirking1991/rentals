@@ -35,7 +35,10 @@ export class LesseeDetailsPage {
       // new record
       this.gs.http.post(this.gs.api_url+'Lessees', JSON.stringify(this.lessee), {headers: this.gs.http_header})
         .subscribe(
-          success=>{console.log(success);},  
+          success=>{
+            this.gs.pull_lessees();
+            console.log(success);
+          },  
           error=>{console.log(error);}
         );
     } else {
@@ -43,7 +46,10 @@ export class LesseeDetailsPage {
       // update record
       this.gs.http.put(this.gs.api_url+'Lessees', JSON.stringify(this.lessee), {headers: this.gs.http_header})
         .subscribe(
-          success=>{console.log(success);},  
+          success=>{
+            this.gs.pull_lessees();
+            console.log(success);
+          },  
           error=>{console.log(error)}
         );
     }
@@ -61,7 +67,10 @@ export class LesseeDetailsPage {
           handler: () => {
             this.gs.http.delete(this.gs.api_url+'Lessees'+'/?uid='+this.lessee.uid, {headers: this.gs.http_header})
               .subscribe(
-                success=>{console.log(success);},  
+                success=>{
+                  this.gs.pull_lessees();
+                  console.log(success);
+                },  
                 error=>{console.log(error)}
               );
             this.navCtrl.pop();

@@ -36,7 +36,10 @@ export class UserDetailsPage {
       // new record
       this.gs.http.post(this.gs.api_url+'Users', JSON.stringify(this.user), {headers: this.gs.http_header})
         .subscribe(
-          success=>{console.log(success);},  
+          success=>{
+            this.gs.pull_users();
+            console.log(success);
+          },  
           error=>{console.log(error);}
         );
     } else {
@@ -45,7 +48,10 @@ export class UserDetailsPage {
       // update record
       this.gs.http.put(this.gs.api_url+'Users', JSON.stringify(this.user), {headers: this.gs.http_header})
         .subscribe(
-          success=>{console.log(success);},  
+          success=>{
+            this.gs.pull_users();
+            console.log(success);
+          },  
           error=>{console.log(error)}
         );
     }
@@ -65,7 +71,10 @@ export class UserDetailsPage {
           handler: () => {
             this.gs.http.delete(this.gs.api_url+'Users'+'/?uid='+this.user.uid, {headers: this.gs.http_header})
               .subscribe(
-                success=>{console.log(success);},  
+                success=>{
+                  this.gs.pull_users();
+                  console.log(success);
+                },  
                 error=>{console.log(error)}
               );
             this.navCtrl.pop();

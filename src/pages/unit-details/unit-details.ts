@@ -36,7 +36,10 @@ export class UnitDetailsPage {
       // new record
       this.gs.http.post(this.gs.api_url+'Units', JSON.stringify(this.unit), {headers: this.gs.http_header})
         .subscribe(
-          success=>{console.log(success);},  
+          success=>{
+            this.gs.pull_units();
+            console.log(success);
+          },  
           error=>{console.log(error);}
         );
     } else {
@@ -45,7 +48,10 @@ export class UnitDetailsPage {
       // update record
       this.gs.http.put(this.gs.api_url+'Units', JSON.stringify(this.unit), {headers: this.gs.http_header})
         .subscribe(
-          success=>{console.log(success);},  
+          success=>{
+            this.gs.pull_units();
+            console.log(success);
+          },  
           error=>{console.log(error)}
         );
     }
@@ -64,7 +70,10 @@ export class UnitDetailsPage {
           handler: () => {
             this.gs.http.delete(this.gs.api_url+'Units'+'/?uid='+this.unit.uid, {headers: this.gs.http_header})
               .subscribe(
-                success=>{console.log(success);},  
+                success=>{
+                  this.gs.pull_units();
+                  console.log(success);
+                },  
                 error=>{console.log(error)}
               );
             this.navCtrl.pop();

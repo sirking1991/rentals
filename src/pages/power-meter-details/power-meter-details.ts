@@ -36,7 +36,10 @@ export class PowerMeterDetailsPage {
       // new record
       this.gs.http.post(this.gs.api_url+'PowerMeters', JSON.stringify(this.power_meter), {headers: this.gs.http_header})
         .subscribe(
-          success=>{console.log(success);},  
+          success=>{
+            this.gs.pull_power_meters();
+            console.log(success);
+          },  
           error=>{console.log(error);}
         );
     } else {
@@ -45,7 +48,10 @@ export class PowerMeterDetailsPage {
       // update record
       this.gs.http.put(this.gs.api_url+'PowerMeters', JSON.stringify(this.power_meter), {headers: this.gs.http_header})
         .subscribe(
-          success=>{console.log(success);},  
+          success=>{
+            this.gs.pull_power_meters();
+            console.log(success);
+          },  
           error=>{console.log(error)}
         );
     }
@@ -63,7 +69,10 @@ export class PowerMeterDetailsPage {
           handler: () => {
             this.gs.http.delete(this.gs.api_url+'PowerMeters'+'/?uid='+this.power_meter.uid, {headers: this.gs.http_header})
               .subscribe(
-                success=>{console.log(success);},  
+                success=>{
+                  this.gs.pull_power_meters();
+                  console.log(success);
+                },  
                 error=>{console.log(error)}
               );
             this.navCtrl.pop();

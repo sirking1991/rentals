@@ -35,6 +35,7 @@ export class GeneralProvider {
   lessees = [];
   units   = [];
   power_meters  = [];
+  pingRefresh = 60;
 
   public selectedPrinter:any=[];
 
@@ -56,7 +57,7 @@ export class GeneralProvider {
     // ping server to check if we're online or offline
     window.setInterval(() => {
       this.ping();
-    }, 60*1000);
+    }, this.pingRefresh*1000);
 
     
   }
