@@ -8,11 +8,6 @@ class Auth extends CI_Controller {
 		rest_header();		
 		header('Content-Type: application/json');
 	}
-
-
-	function register(){
-		$body = json_decode(file_get_contents('php://input'));
-	}
 	
 
 	function get_token() {
@@ -66,9 +61,17 @@ class Auth extends CI_Controller {
 		// update token with account_code & user_code
 		$this->db->set(array('account_code'=>$account_code, 'user_code'=>$user_code))
 				 ->where('token',$token)->update('tokens');
+		// update last login of the user
+		$this->db->set('last_login', date('Y-m-d H:i:s'))
+				 ->where(array('account_code'=>$account_code, 'code'=>$user_code))
+				 ->update('users');
 
 		echo json_encode(array('status'=>'OK',
-							   'user'=>array('code'=>$row->code,'first_name'=>$row->first_name, 'last_name'=>$row->last_name, 'permissions'=>$row->permissions)));
+							   'user'=>array('code'=>$row->code,
+											  'first_name'=>$row->first_name, 
+											  'last_name'=>$row->last_name, 
+											  'is_admin'=>$row->is_admin, 
+											  'permissions'=>$row->permissions)));
 
 	}
 

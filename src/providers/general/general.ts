@@ -161,6 +161,10 @@ export class GeneralProvider {
   }
   
   user_has_permission(resource_id, perm_id, prompt): boolean{
+
+    // if user is an admin, we always return true
+    if (this.user.is_admin) return true;
+
     let permissions = JSON.parse(this.user.permissions);
     let has_access: boolean = false;
     for(let i=0; i<permissions.length; i++) {

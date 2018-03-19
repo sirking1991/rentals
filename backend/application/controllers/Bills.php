@@ -173,7 +173,7 @@ class Bills extends CI_Controller {
         $bills_payments = $this->db->where(array('account_code'=>$this->auth_info->account_code,
                                                    'lessee_uid'=>$lessee_uid,
                                                    'date >='=>$date_from, 'date <='=>$date_to,))
-                                    ->order_by('date, amount desc')
+                                    ->order_by('date, type')
                                     ->get('bills_payments')->result_array();
         foreach($bills_payments as $bp) {
             $data[] = array('type'=>$bp['type'], 'nmbr'=>$bp['nmbr'], 'date'=>$bp['date'], 'remarks'=>$bp['remarks'], 'amount'=>$bp['amount']);

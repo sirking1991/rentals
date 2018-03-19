@@ -24,7 +24,27 @@ export class RegistrationPage {
   }
 
   create_account(){
-
+    let account = {
+      first_name: this.first_name,
+      last_name: this.last_name,
+      phone: this.phone,
+      email: this.email,
+      birth_date: this.birth_date,
+    }
+    let load = this.gs.loadCtrl.create({content:'Sending request...'});
+    load.present();
+    this.gs.http.post(this.gs.api_url+'Account/register', JSON.stringify(account))
+    .subscribe(
+      resp=>{
+        load.dismiss();
+        this.gs.alertCtrl.create({subTitle:resp['message'],buttons:['OK']}).present();        
+        if ('OK'==resp['status']) this.navCtrl.pop();
+      },  
+      error=>{        
+        load.dismiss();
+        this.gs.presentHttpError(error);
+      }
+    );
   }
 
 }

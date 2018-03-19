@@ -46,7 +46,7 @@
           Meter #: {{read.meter_nmbr}}
         </ion-card-header>
         <ion-card-content>
-          ({{read.current}} - {{read.previous}}) x {{read.multiplier}} = {{(read.current-read.previous)*read.multiplier}} KWH
+          ({{read.current}} - {{read.previous}}) x {{read.multiplier}} = {{(read.current-read.previous)*read.multiplier|number:'1.2-2'}} KWH
         </ion-card-content>
       </ion-card>
     </div>
