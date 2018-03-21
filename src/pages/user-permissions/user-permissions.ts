@@ -19,7 +19,7 @@ export class UserPermissionsPage {
     {id:'PaymentSummaryPage', name:'Payment Summary', req_perm:[{id:'view',label:'View'}]},
     {id:'BillsPage', name:'Bills', req_perm:[{id:'view',label:'View'},{id:'add',label:'Add'},{id:'edit',label:'Edit'},{id:'delete',label:'Delete'}]},
     {id:'BillSummaryPage', name:'Bill Summary', req_perm:[{id:'view',label:'View'}]},
-    {id:'BatchBillsPage', name:'Batch billing', req_perm:[{id:'view',label:'View'},{id:'generate',label:'Generate bills'},]},
+    {id:'BatchBillsPage', name:'Batch billing', req_perm:[{id:'view',label:'View'},{id:'generate',label:'Generate bills'},{id:'delete',label:'Delete'}]},
     {id:'PowerMeterReadingsPage', name:'Power meter reading', req_perm:[{id:'view',label:'View'},{id:'add',label:'Add'},{id:'edit',label:'Edit'},{id:'delete',label:'Delete'}]},
     {id:'LesseesPage', name:'Lessees', req_perm:[{id:'view',label:'View'},{id:'add',label:'Add'},{id:'edit',label:'Edit'},{id:'delete',label:'Delete'}]},
     {id:'PowerMetersPage', name:'Power meters', req_perm:[{id:'view',label:'View'},{id:'add',label:'Add'},{id:'edit',label:'Edit'},{id:'delete',label:'Delete'}]},
