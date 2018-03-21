@@ -138,4 +138,26 @@ export class BatchBillDetailsPage {
     this.navCtrl.pop();
   }
 
+
+  delete(){
+    if (!this.gs.user_has_permission('BatchBillsPage', 'delete', true)) return;
+    this.gs.alertCtrl.create({
+      title: 'This will delete the bills generated under this batch. Do you want to continue?',
+      buttons: [
+        {text: 'Cancel',role: 'cancel'},
+        {
+          text: 'Delete',
+          handler: () => {
+            this.gs.http.delete(this.gs.api_url+'Bills/Batches'+'/?uid='+this.batch_bill.uid, {headers: this.gs.http_header})
+              .subscribe(
+                success=>{console.log(success);},  
+                error=>{console.log(error)}
+              );
+            this.navCtrl.pop();
+          }
+        }
+      ]
+    }).present();
+  }
+
 }

@@ -11,6 +11,10 @@
         <button ion-button color="primary" (click)="save()" *ngIf="batch_bill.details.length>0 && new_record">
             <ion-icon name="checkmark"></ion-icon>&nbsp;Save
         </button>
+
+        <button ion-button full color='danger' (click)="delete()" *ngIf="!new_record" >
+            <ion-icon name="trash"></ion-icon>&nbsp;Delete
+        </button>
       </ion-buttons> 
 
     </ion-navbar>

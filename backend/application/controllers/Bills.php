@@ -257,6 +257,28 @@ class Bills extends CI_Controller {
             exit;
         }
 
+        if ('DELETE'==$_SERVER['REQUEST_METHOD']) {
+            $batch_uid      = $this->input->get('uid');
+            $account_code   = $this->auth_info->account_code;
+            
+            $this->db->where(array('uid'=>$batch_uid,'account_code'=>$account_code))->delete('batch_bills');
+            if (1==$this->db->affected_rows() ) {
+                // delete payment applications on the bills under the batch
+                $sql = "DELETE FROM payment_applications 
+                    WHERE bill_uid IN (SELECT uid FROM bills WHERE batch_uid={$batch_uid} AND account_code='{$account_code}') 
+                    AND account_code='{$account_code}'";
+                $this->db->query($sql);
+                // delete bills under the batch
+                $sql = "DELETE FROM bills WHERE batch_uid={$batch_uid} AND account_code='{$account_code}'";
+                $this->db->query($sql);
+
+                echo json_encode(array('status'=>'OK', 'uid'=>$batch_uid));
+            } else {
+                echo json_encode(array('status'=>'ERROR', 'message'=>'Record not found'));
+            }            
+            exit;
+        }        
+
 
     }
 
