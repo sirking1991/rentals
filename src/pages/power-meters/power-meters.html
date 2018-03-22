@@ -18,7 +18,7 @@
 
   <ion-card *ngFor="let power_meter of power_meters; let i = index" (click)="open(i)">
     <ion-card-header>
-      Number: {{power_meter.nmbr}} / Multiplier {{power_meter.multiplier}}
+      Number:{{power_meter.nmbr}} / Multiplier:{{power_meter.multiplier}} / Last reading:{{power_meter.last_reading}}
     </ion-card-header>
     <ion-card-content>
       {{power_meter.remarks}}

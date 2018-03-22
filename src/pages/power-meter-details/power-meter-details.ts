@@ -23,7 +23,7 @@ export class PowerMeterDetailsPage {
     this.power_meter = this.navParams.get('power_meter');
     if(undefined==this.power_meter) {
       this.new_record = true;
-      this.power_meter = {uid: 0, nmbr:'', multiplier: 1, remarks:''}
+      this.power_meter = {uid:0, nmbr:'', multiplier:1, last_reading:0, remarks:''}
     }
 
   }

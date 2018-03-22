@@ -41,6 +41,8 @@ class PowerMeters extends CI_Controller {
                 'account_code'  => $this->auth_info->account_code,
                 'nmbr'          => $post->nmbr,
                 'remarks'       => $post->remarks,
+                'multiplier'    => $post->multiplier,
+                'last_reading'  => $post->last_reading,
                 'created_by'    => $this->auth_info->user_code,
                 'created_on'    => date('Y-m-d H:i:s')
             ));
@@ -57,6 +59,8 @@ class PowerMeters extends CI_Controller {
             $this->db->set(array(
                 'nmbr'          => $post->nmbr,
                 'remarks'       => $post->remarks,
+                'multiplier'    => $post->multiplier,
+                'last_reading'  => $post->last_reading,
                 'edited_by'    => $this->auth_info->user_code,
                 'edited_on'    => date('Y-m-d H:i:s')
             ));
@@ -128,8 +132,10 @@ class PowerMeters extends CI_Controller {
                                      'current'=>$detail->current, 
                                      'previous'=>$detail->previous, 
                                      'multiplier'=>$detail->multiplier))
-                ->insert('power_meter_reading_details');
+                            ->insert('power_meter_reading_details');
+                $this->update_meter_last_reading($detail->meter_nmbr, $detail->current);
             }
+            meta_set($this->auth_info->account_code, 'power_meters_last_update', date('Y-m-d H:i:s'));
             echo json_encode(array('status'=>'OK', 'uid'=>$uid));
             exit;
         }
@@ -159,8 +165,10 @@ class PowerMeters extends CI_Controller {
                                         'current'=>$detail->current, 
                                         'previous'=>$detail->previous, 
                                         'multiplier'=>$detail->multiplier))
-                    ->insert('power_meter_reading_details');
-                }                
+                                ->insert('power_meter_reading_details');
+                    $this->update_meter_last_reading($detail->meter_nmbr, $detail->current);
+                }           
+                meta_set($this->auth_info->account_code, 'power_meters_last_update', date('Y-m-d H:i:s'));     
                 echo json_encode(array('status'=>'OK', 'uid'=>$post->uid));
             } else {
                 echo json_encode(array('status'=>'ERROR', 'message'=>'Record not found'));
@@ -182,18 +190,35 @@ class PowerMeters extends CI_Controller {
 
     }
 
+
+    private function update_meter_last_reading($meter_nmbr, $current) {
+
+        $meter = $this->db->get_where('power_meters',array('nmbr'=>$meter_nmbr,'account_code'=>$this->auth_info->account_code))->row_array();
+
+        if (0<count($meter)) {
+            if ($meter['last_reading']<$current) {
+                $this->db->set('last_reading', $current)
+                         ->where(array('nmbr'=>$meter_nmbr,'account_code'=>$this->auth_info->account_code))
+                         ->update('power_meters');
+            }
+        }
+
+    }
+
+
     function active_meters(){
         $meters = array();
         // get meters that are currently assigned to a unit and the unit has lessee
-        $sql = "SELECT u.nmbr as unit_nmbr, u.uid as unit_uid, u.lessee_uid, u.power_meter_nmbr as meter_nmbr, m.multiplier
+        $sql = "SELECT u.nmbr as unit_nmbr, u.uid as unit_uid, u.lessee_uid, u.power_meter_nmbr as meter_nmbr, m.multiplier, m.last_reading as previous, m.last_reading as current
                 FROM units u, power_meters m
                 WHERE m.nmbr=u.power_meter_nmbr
                     AND u.account_code='{$this->auth_info->account_code}' AND m.account_code='{$this->auth_info->account_code}'
                     AND u.power_meter_nmbr!='' AND u.lessee_uid!=0
                 ORDER BY m.nmbr
                 ";                
-        $result = $this->db->query($sql)->result_array();
+        $meters = $this->db->query($sql)->result_array();
         // get last reading
+/*
         foreach($result as $meter) {
             // get the previous readings
             $this->db->limit(1);
@@ -201,11 +226,11 @@ class PowerMeters extends CI_Controller {
             $tmp = $this->db->get_where('power_meter_reading_details', array('meter_nmbr'=>$meter['meter_nmbr']))->row_array();
             $previous = 0;
             if (0!=count($tmp)) $previous = $tmp['current'];
-            $meter['previous'] = $previous;
+            $meter['previous'] = $meter['last_reading'];
             $meter['current'] = $previous;
             $meters[] = $meter;
         }
-
+*/        
         echo json_encode(array('status'=>'OK', 'data'=>$meters));
     
     }

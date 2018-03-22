@@ -91,17 +91,15 @@ export class PowerMeterReadingDetailsPage {
     var read = this.power_meter_reading.details[idx];
 
     let alert = this.gs.alertCtrl.create({
-      title: 'Reading',
+      title: 'Current reading',
       inputs: [
         {name: 'current', placeholder: 'Current', value: read.current},
-        {name: 'previous', placeholder: 'Previous', value: read.previous}
       ],
       buttons: [
         {text: 'Cancel', role: 'cancel'},
         {
           text: 'Update',
           handler: data => {  
-            this.power_meter_reading.details[idx].previous = data.previous;    
             this.power_meter_reading.details[idx].current = data.current;
           }
         }
